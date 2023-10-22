@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -51,5 +51,30 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>DavidLibre-Bold.ttf</string>
+		<string>DavidLibre-Medium.ttf</string>
+		<string>DavidLibre-Regular.ttf</string>
+		<string>Inter-ExtraBold.ttf</string>
+		<string>Stylish-Regular.ttf</string>
+		<string>Syne-Bold.ttf</string>
+		<string>Syne-ExtraBold.ttf</string>
+		<string>Syne-Medium.ttf</string>
+		<string>Syne-Regular.ttf</string>
+		<string>Syne-SemiBold.ttf</string>
+		<string>Syne-VariableFont_wght.ttf</string>
+		<string>TitilliumWeb-Black.ttf</string>
+		<string>TitilliumWeb-Bold.ttf</string>
+		<string>TitilliumWeb-BoldItalic.ttf</string>
+		<string>TitilliumWeb-ExtraLight.ttf</string>
+		<string>TitilliumWeb-ExtraLightItalic.ttf</string>
+		<string>TitilliumWeb-Italic.ttf</string>
+		<string>TitilliumWeb-Light.ttf</string>
+		<string>TitilliumWeb-LightItalic.ttf</string>
+		<string>TitilliumWeb-Regular.ttf</string>
+		<string>TitilliumWeb-SemiBold.ttf</string>
+		<string>TitilliumWeb-SemiBoldItalic.ttf</string>
+	</array>
 </dict>
 </plist>
