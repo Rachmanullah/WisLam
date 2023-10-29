@@ -40,7 +40,8 @@ export const DataWisata = [
         destination: 'NTT',
         rating: 5.0,
         category: 'Island',
-        image: 'https://th.bing.com/th/id/OIP.DlKBy4rsZBFxfkNx41wQewAAAA?pid=ImgDet&rs=1'
+        image: 'https://th.bing.com/th/id/OIP.DlKBy4rsZBFxfkNx41wQewAAAA?pid=ImgDet&rs=1',
+        description: 'Labuan Bajo adalah sebuah destinasi wisata yang terletak di Pulau Flores, Indonesia. Tempat ini dikenal sebagai gerbang menuju Taman Nasional Komodo, yang merupakan rumah bagi kadal purba terkenal, Komodo Dragon. abuan Bajo dikelilingi oleh keindahan alam yang menakjubkan. Dari perairan jernih Laut Flores yang menggoda hingga bukit-bukit hijau dan mata air panas alami, keindahan alam di sekitar kota ini akan memukau para pengunjung. Taman Nasional Komodo, dengan pulau-pulau eksotisnya, juga terletak di dekatnya.Snorkeling dan menyelam adalah kegiatan yang sangat populer di sini, dengan keanekaragaman bawah air yang mengagumkan. Pulau-pulau di sekitarnya juga menawarkan pantai pasir putih yang indah untuk bersantai.Labuan Bajo adalah tujuan yang luar biasa untuk para petualang dan pencinta alam yang ingin menjelajahi keajaiban alam Indonesia. Dengan keindahan alamnya yang menawan, satwa liar yang unik, dan beragam aktivitas wisata, Labuan Bajo telah menjadi salah satu destinasi wisata yang paling diminati di Indonesia.',
     },
     {
         id: 2,
@@ -48,7 +49,8 @@ export const DataWisata = [
         destination: 'Pasuruan, Jawa Timur',
         rating: 4.5,
         category: 'Mountain',
-        image: 'https://th.bing.com/th/id/OIP.IWngAlVhyoqAAODqzBsNqAHaE7?pid=ImgDet&rs=1'
+        image: 'https://th.bing.com/th/id/OIP.IWngAlVhyoqAAODqzBsNqAHaE7?pid=ImgDet&rs=1',
+        description: 'Gunung Bromo adalah salah satu gunung berapi yang terkenal di Indonesia dan merupakan bagian dari rangkaian pegunungan Tengger di Provinsi Jawa Timur. Gunung ini memiliki ciri khas yang sangat khas dan menjadi tujuan wisata populer karena pemandangan alam yang menakjubkan.Salah satu momen paling spektakuler adalah saat matahari terbit, ketika para pengunjung dapat menyaksikan pemandangan gunung-gunung berapi yang muncul dari kabut pagi, menciptakan lanskap yang sangat indah. Untuk mencapai kawah Gunung Bromo, pengunjung biasanya harus naik kuda atau berjalan kaki melalui lautan pasir yang terbentang luas. Dari kawah Bromo, Anda dapat melihat pemandangan luar biasa dan merasakan aura mistis dari gunung ini.Selain pemandangan alam yang menakjubkan, Gunung Bromo juga memiliki makna budaya yang kuat bagi masyarakat setempat. Masyarakat suku Tengger yang tinggal di sekitar gunung ini memiliki tradisi unik, termasuk upacara adat dan perayaan keagamaan yang melibatkan gunung sebagai simbol spiritual dan tempat suci.Gunung Bromo adalah salah satu destinasi wisata terbaik di Indonesia dan menawarkan pengalaman yang tak terlupakan bagi para pengunjung yang mencari petualangan alam dan keajaiban alam yang unik.',
     },
     {
         id: 3,
@@ -56,7 +58,8 @@ export const DataWisata = [
         destination: 'Kuta, Bali',
         rating: 4.5,
         category: 'Beach',
-        image: 'https://cdn0-production-assets-kly.akamaized.net/medias/1005298/big/078176700_1443602274-7.jpg'
+        image: 'https://cdn0-production-assets-kly.akamaized.net/medias/1005298/big/078176700_1443602274-7.jpg',
+        description: 'Pandawa Beach, yang sering disebut sebagai "Pantai Rahasia Bali," adalah tempat yang memukau dengan pemandangan spektakulernya. Tersembunyi di antara tebing-tebing kapur yang menjulang tinggi, pantai ini telah menjadi salah satu tempat wisata terpopuler di Bali. Saat Anda tiba di sana, Anda akan disambut oleh tujuh patung pahlawan Mahabharata yang dikenal sebagai "Pandawa Lima" yang menghiasi akses jalan menuju pantai. Pandawa Beach menawarkan pasir putih yang lembut dan air laut yang jernih, menciptakan lingkungan yang sempurna untuk berenang, berjemur, atau sekadar bersantai sambil menikmati keindahan alam sekitar. Selain itu, pantai ini juga dikenal sebagai surga bagi para peselancar dan penggemar aktivitas air lainnya, berkat ombaknya yang cocok untuk olahraga air.Pandawa Beach adalah tempat yang cocok untuk menikmati matahari terbenam yang menakjubkan, dan seringkali pengunjung datang ke sini untuk mengabadikan momen indah ini. Terlepas dari keindahan alamnya, Pantai Pandawa juga memiliki nilai sejarah dan budaya yang mendalam, terutama dengan adanya patung-patung Pandawa Lima yang menghormati kisah epik Mahabharata.',
     },
     {
         id: 4,
@@ -65,6 +68,7 @@ export const DataWisata = [
         rating: 4.0,
         category: 'Beach',
         image: 'https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_1000/v1628071160/blog/o1zz8bojecviivci4isw.webp',
+        description: 'Diamond Beach dikenal karena kecantikan alaminya yang memukau. Pantai ini memiliki pasir putih yang lembut dan ombak laut yang berwarna biru jernih. Yang membuat pantai ini sangat istimewa adalah pemandangan tebing kapur yang menjulang tinggi di sebelahnya. Tebing-tebing ini memberikan latar belakang dramatis yang menciptakan kontras yang indah dengan pasir putih dan air laut. Puncak tebing yang tajam terlihat seperti berlian yang bersinar, memberikan pantai ini namanya.Diamond Beach adalah tempat yang ideal untuk berfoto karena pemandangan yang luar biasa. Pengunjung dapat mengambil foto indah dengan latar belakang tebing kapur yang menjulang tinggi, dan beberapa spot di sekitarnya yang disediakan untuk pengambilan foto. Selain itu, beberapa kafe dan warung makan terletak di sekitar pantai, sehingga Anda dapat bersantai sambil menikmati hidangan lokal dan minuman di sini.Selain keindahan pesisirnya, Diamond Beach juga menawarkan kesempatan untuk melakukan snorkeling atau diving. Bawah lautnya kaya akan kehidupan laut yang beragam, termasuk terumbu karang yang indah dan ikan-ikan yang warna-warni. Ini adalah pengalaman yang mengagumkan untuk para penyelam dan penggemar snorkeling.',
     },
     {
         id: 5,
@@ -73,6 +77,7 @@ export const DataWisata = [
         rating: 4.8,
         category: 'Island',
         image: 'https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_1000/v1628089070/blog/wzf9irgne508ytlxl8ra.webp',
+        description: 'Raja Ampat adalah perpaduan antara alam yang menakjubkan dan keanekaragaman hayati, dan budaya yang mempesona. Ini adalah destinasi yang harus dijelajahi bagi mereka yang mencintai alam dan petualangan yang tak terlupakan di salah satu tempat paling indah di dunia.Raja Ampat terkenal dengan kekayaan bawah lautnya yang menakjubkan. Terumbu karang yang sehat dan ragam hayati laut yang luar biasa menjadikan daerah ini sebagai salah satu tujuan utama bagi penyelam. Anda akan menemukan lebih dari 1.500 spesies ikan terumbu dan hampir 700 spesies karang yang hidup di perairan ini. Ini adalah surga bagi penyelam, snorkeler, dan penggemar keindahan bawah laut.Pemandangan matahari terbenam di Raja Ampat adalah yang paling menakjubkan. Langit berwarna-warni, air biru laut, dan pulau-pulau yang berlapis menawarkan pemandangan yang tak terlupakan.',
     },
     {
         id: 6,
@@ -80,7 +85,8 @@ export const DataWisata = [
         destination: 'NTT',
         rating: 4.5,
         category: 'Island',
-        image: 'https://asset.kompas.com/crops/eIP2s99xXyYl2dhwW9hDQ6QxisY=/0x0:780x520/750x500/data/photo/2019/09/26/5d8c64544d656.jpg'
+        image: 'https://asset.kompas.com/crops/eIP2s99xXyYl2dhwW9hDQ6QxisY=/0x0:780x520/750x500/data/photo/2019/09/26/5d8c64544d656.jpg',
+        description: 'Pulau Komodo adalah rumah bagi kadal komodo, yang merupakan spesies kadal terbesar di dunia. Kadal-kadal ini hanya dapat ditemukan di wilayah sekitar Indonesia, menjadikan Pulau Komodo sebagai satu-satunya tempat di dunia di mana mereka hidup bebas.Pulau ini menawarkan pemandangan yang memukau. Anda akan menemui bukit-bukit berbentuk kerucut yang hijau, pantai-pantai berpasir putih yang cantik, dan lautan yang jernih. Pulau Komodo dan pulau-pulau sekitarnya menawarkan lanskap alam yang sangat beragam.aman Nasional Komodo tidak hanya dikenal karena kadal komodo, tetapi juga karena keanekaragaman hayati bawah lautnya. Wilayah ini merupakan surga bagi penyelam dengan terumbu karang yang spektakuler dan beragam makhluk laut, termasuk ikan-ikan warna-warni.Pulau Komodo menawarkan berbagai aktivitas wisata seperti trekking untuk melihat kadal komodo, snorkeling, dan menyelam. Wisatawan dapat menjelajahi alam liar yang indah dan mendalaminya dengan cara yang aman dan mendidik.',
     },
     {
         id: 7,
@@ -88,7 +94,8 @@ export const DataWisata = [
         destination: 'Sulawesi Utara',
         rating: 4.5,
         category: 'Sea',
-        image: 'https://ik.imagekit.io/tvlk/blog/2020/01/keindahan-alam-indonesia-5-Super-Adventure.jpg?tr=dpr-2,w-675'
+        image: 'https://ik.imagekit.io/tvlk/blog/2020/01/keindahan-alam-indonesia-5-Super-Adventure.jpg?tr=dpr-2,w-675',
+        description: 'Taman Laut Bunaken adalah surga bawah laut yang menawarkan pengalaman luar biasa bagi para pecinta alam dan penyelam. Terletak di sebelah timur Kota Manado, Sulawesi Utara, taman laut ini menawarkan kombinasi luar biasa dari keindahan alam, keanekaragaman hayati laut, dan kejernihan air.Taman Laut Bunaken adalah rumah bagi lebih dari 3.000 spesies ikan dan berbagai jenis terumbu karang yang sangat indah. Pengunjung dapat menyaksikan berbagai spesies ikan, dari ikan karang kecil hingga hiu paus yang mengagumkan.Taman Laut Bunaken menawarkan sarana selam yang luar biasa bagi para penyelam, baik yang berpengalaman maupun pemula. Terumbu karang yang sehat, dinding-dinding terjal, dan gua-gua bawah air menjadikannya tempat yang sangat dicari oleh penyelam dari seluruh dunia.Taman Laut Bunaken telah menjadi salah satu taman laut terbaik yang menjalankan upaya pelestarian dan pemeliharaan lingkungan. Banyak program dan aturan yang diterapkan untuk melindungi ekosistem lautnya.',
     },
     {
         id: 8,
@@ -96,7 +103,8 @@ export const DataWisata = [
         destination: 'Maluku',
         rating: 4.5,
         category: 'Beach',
-        image: 'https://th.bing.com/th/id/OIP.Z6wuKFoY-1WvvKJc7vyG8wHaHa?pid=ImgDet&rs=1'
+        image: 'https://th.bing.com/th/id/OIP.Z6wuKFoY-1WvvKJc7vyG8wHaHa?pid=ImgDet&rs=1',
+        description: 'Ngurtafur Beach terletak di pulau-pulau Raja Ampat, yang terkenal dengan kekayaan bawah lautnya yang luar biasa. Pantai ini menyajikan kombinasi yang menakjubkan antara pasir putih yang halus dan air laut yang jernih dengan gradasi warna biru dan hijau yang menawan. Terlepas dari keindahan pantai itu sendiri, Ngurtafur Beach juga dikelilingi oleh karang-karang yang memikat, menjadikannya surga bagi penyelam dan snorkeler.Salah satu daya tarik utama pantai ini adalah pemandangan bawah airnya yang menakjubkan. Terumbu karang yang hidup dengan warna-warni dan kehidupan laut yang beragam, seperti ikan-ikan eksotis dan terumbu karang yang sehat, membuatnya menjadi tempat yang sangat dicari oleh para pecinta alam bawah laut.',
     },
     {
         id: 9,
@@ -104,7 +112,8 @@ export const DataWisata = [
         destination: 'Kalimantan Timur',
         rating: 4.5,
         category: 'Island',
-        image: 'https://www.itrip.id/wp-content/uploads/2020/11/Pulau-Derawan.jpg'
+        image: 'https://www.itrip.id/wp-content/uploads/2020/11/Pulau-Derawan.jpg',
+        description: 'Kepulauan Derawan terdiri dari beberapa pulau yang paling terkenal antaranya adalah Pulau Derawan, Pulau Maratua, Pulau Sangalaki, Pulau Kakaban, dan Pulau Nabucco. Setiap pulau memiliki daya tariknya sendiri, tetapi semuanya memiliki keindahan alam yang luar biasa.Salah satu daya tarik utama Kepulauan Derawan adalah kehidupan bawah lautnya yang spektakuler. Terumbu karang yang berwarna-warni, ikan-ikan eksotis, dan penyu-penyu yang berkeliaran di perairan ini membuatnya menjadi destinasi snorkeling dan penyelaman yang sangat populer. Pulau Sangalaki terkenal sebagai tempat berkembang biaknya penyu-penyu.Pantai-pantai di Kepulauan Derawan memiliki pasir putih yang lembut dan air laut yang sangat jernih. Ini menciptakan pemandangan yang sangat indah dan nyaman untuk berjemur, berenang, atau hanya bersantai di tepi pantai.',
     },
     {
         id: 10,
@@ -112,7 +121,8 @@ export const DataWisata = [
         destination: 'Bondowoso',
         rating: 4.5,
         category: 'Crater',
-        image: 'https://th.bing.com/th/id/OIP.4hLJnbO4zSJr-WCBfb_XTQHaE7?pid=ImgDet&rs=1'
+        image: 'https://th.bing.com/th/id/OIP.4hLJnbO4zSJr-WCBfb_XTQHaE7?pid=ImgDet&rs=1',
+        description: 'Kawah Ijen adalah salah satu tujuan wisata alam yang terkenal di Indonesia. Kawah Ijen terletak di Kabupaten Banyuwangi, Jawa Timur, dan merupakan bagian dari kompleks vulkanik Ijen. Kawah ini menarik wisatawan dari seluruh dunia karena keindahan alamnya yang memukau dan fenomena alam unik yang terjadi di dalamnya.Kawah Ijen juga menawarkan pemandangan matahari terbit yang spektakuler dari puncaknya. Mendaki menuju puncak kawah ini adalah pengalaman yang menantang, tetapi pemandangan yang menakjubkan dari atas sangat memuaskan usaha tersebut.',
     },
     {
         id: 11,
@@ -120,7 +130,8 @@ export const DataWisata = [
         destination: 'Bali',
         rating: 4.5,
         category: 'Waterfall',
-        image: 'https://www.dailysia.com/wp-content/uploads/2020/03/air-terjun-leke-leke-4-768x960.jpg'
+        image: 'https://www.dailysia.com/wp-content/uploads/2020/03/air-terjun-leke-leke-4-768x960.jpg',
+        description: 'Leke-Leke adalah salah satu destinasi wisata yang terletak di Indonesia, khususnya di Pulau Jawa. Tempat ini terkenal karena keindahan alamnya yang menakjubkan dan pemandangan alam pegunungan yang mempesona.Leke-Leke dikenal karena air terjun yang cantik dan menyejukkan. Air terjun ini memberikan pengalaman yang menakjubkan bagi pengunjung yang ingin berenang atau hanya menikmati suasana sejuk di sekitarnya.Leke-Leke terletak di lereng gunung, sehingga pengunjung dapat menikmati pemandangan lanskap pegunungan yang memukau. Ini menjadi latar belakang yang sempurna untuk berbagai kegiatan fotografi.Tempat ini relatif tenang dan jauh dari keramaian kota. Ini adalah tempat yang ideal bagi mereka yang mencari ketenangan dan relaksasi dari kehidupan sehari-hari.Selain menikmati air terjun dan pemandangan alam, pengunjung dapat melakukan berbagai aktivitas wisata alam seperti hiking, camping, dan bersepeda gunung di sekitar Leke-Leke.',
     },
     {
         id: 12,
@@ -129,6 +140,7 @@ export const DataWisata = [
         rating: 4.5,
         category: 'Lakes',
         image: 'https://th.bing.com/th/id/R.e44e33407026da617a135d4a0e332090?rik=mWtliZsiWFoDOA&riu=http%3a%2f%2ffeelstheadventureinbalivillas.weebly.com%2fuploads%2f5%2f8%2f3%2f4%2f58347599%2fdanau-toba_orig.jpg&ehk=gGPo15LiSvaStcxuXvRHVqzPQAD9LSAl2AKaWxYMAcY%3d&risl=&pid=ImgRaw&r=0',
+        description: 'Danau Toba adalah sebuah danau vulkanik yang terletak dalam kaldera raksasa dengan panjang sekitar 100 kilometer dan lebar sekitar 30 kilometer. Pemandangan danau ini sangat indah, dengan air biru yang tenang dan dikelilingi oleh pegunungan yang menjulang tinggi. Pemandangan matahari terbenam di atas danau ini sangat memukau dan sering menjadi momen yang tak terlupakan bagi para pengunjung.Di tengah Danau Toba terdapat Pulau Samosir, pulau vulkanik yang terkenal. Pulau ini memiliki budaya Batak yang unik, dan pengunjung dapat menjelajahi desa-desa tradisional, melihat rumah adat Batak, dan merasakan kehangatan penduduk setempat. Pulau Samosir juga merupakan tempat yang sempurna untuk mengeksplorasi alam dengan trekking dan berbagai aktivitas air.'
     },
     {
         id: 13,
@@ -136,7 +148,8 @@ export const DataWisata = [
         destination: 'Sulawesi Tenggara',
         rating: 4.5,
         category: 'Island',
-        image: 'https://i2.wp.com/scubadiverlife.com/wp-content/uploads/2016/10/7_Wakatobi-Aerial.jpg?w=762&h=571&ssl=1'
+        image: 'https://i2.wp.com/scubadiverlife.com/wp-content/uploads/2016/10/7_Wakatobi-Aerial.jpg?w=762&h=571&ssl=1',
+        description: 'Wakatobi dikenal sebagai salah satu lokasi terbaik di dunia untuk snorkeling dan menyelam. Terumbu karang yang spektakuler, ragam hayati laut yang melimpah, dan jernihnya air laut menjadikan tempat ini surganya para penyelam. Terdapat berbagai titik penyelaman yang menawarkan pengalaman yang luar biasa, termasuk Karang Hatta, Karang Kaledupa, dan banyak lagi.Kawasan ini merupakan bagian dari Taman Nasional Wakatobi, yang juga merupakan Situs Warisan Dunia UNESCO. Wakatobi dikenal karena keanekaragaman hayati lautnya yang luar biasa, termasuk berbagai jenis ikan, terumbu karang, dan makhluk laut unik seperti kuda laut dan penyu.Selain aktivitas penyelaman, Wakatobi juga memiliki pantai-pantai berpasir putih yang memikat. Pantai-pantai ini adalah tempat yang sempurna untuk bersantai, berjemur, atau menikmati matahari terbenam yang indah.',
     },
     {
         id: 14,
@@ -144,7 +157,8 @@ export const DataWisata = [
         destination: 'Maluku Tengah',
         rating: 4.5,
         category: 'Island',
-        image: 'https://th.bing.com/th/id/OIP.ivsB7yjf_RIbrl-RGad81gAAAA?pid=ImgDet&rs=1'
+        image: 'https://th.bing.com/th/id/OIP.ivsB7yjf_RIbrl-RGad81gAAAA?pid=ImgDet&rs=1',
+        description: 'Banda Neira adalah sebuah pulau yang terletak di Kepulauan Banda, Indonesia. Pulau ini merupakan salah satu destinasi wisata yang menawarkan sejarah yang kaya, keindahan alam, dan pesona budaya yang menarik.Banda Neira dikelilingi oleh air laut yang indah dan perbukitan hijau. Pulau ini menawarkan pemandangan pantai berpasir putih, air laut yang jernih, serta aktivitas seperti snorkeling dan menyelam untuk mengeksplorasi kehidupan bawah laut yang kaya.Salah satu daya tarik utama adalah Kastil Benteng Belgia (Fort Belgica), yang merupakan bangunan bersejarah yang telah berdiri sejak abad ke-17. Kastil ini menyimpan sejarah perdagangan rempah-rempah yang berharga dan menawarkan pemandangan spektakuler dari pulau.Banda Neira adalah tempat yang tepat untuk para pelancong yang mencari kombinasi sejarah, alam, budaya, dan ketenangan. Keindahan alamnya yang menakjubkan, bersama dengan warisan sejarah yang memukau, membuat pulau ini menjadi salah satu permata tersembunyi Indonesia yang patut dikunjungi.',
     },
     {
         id: 15,
@@ -152,7 +166,8 @@ export const DataWisata = [
         destination: 'Papua',
         rating: 4.5,
         category: 'Lakes',
-        image: 'https://pariwisataindonesia.id/wp-content/uploads/2020/01/Danau-Sentani.antaranews.com_.jpg'
+        image: 'https://pariwisataindonesia.id/wp-content/uploads/2020/01/Danau-Sentani.antaranews.com_.jpg',
+        description: 'Sentani dikenal karena keindahan alamnya yang memukau. Daerah ini dikelilingi oleh danau-danau indah yang dikelilingi oleh pegunungan hijau. Pemandangan alam Sentani sangat spektakuler, terutama di pagi hari ketika matahari terbit, menciptakan lanskap yang memukau.Danau Sentani adalah salah satu atraksi utama di daerah ini. Danau ini adalah danau terbesar di Papua dan menawarkan pemandangan yang menakjubkan. Anda dapat melakukan perjalanan perahu di danau, menjelajahi pulau-pulau kecil di sekitarnya, atau sekadar menikmati pemandangan matahari terbenam yang memukau.Sentani adalah destinasi wisata yang menggabungkan keindahan alam alami dengan budaya lokal yang kaya. Bagi mereka yang mencari petualangan alam atau ingin merasakan kehidupan sehari-hari masyarakat Papua, Sentani adalah tempat yang patut dipertimbangkan untuk dikunjungi.',
     },
     {
         id: 16,
@@ -160,7 +175,8 @@ export const DataWisata = [
         destination: 'Sumatera Barat',
         rating: 4.5,
         category: 'Island',
-        image: 'https://th.bing.com/th/id/OIP.yglFFf4mZiEcvjeOGl9-sgHaE8?pid=ImgDet&rs=1'
+        image: 'https://th.bing.com/th/id/OIP.yglFFf4mZiEcvjeOGl9-sgHaE8?pid=ImgDet&rs=1',
+        description: 'Kepulauan Mentawai menawarkan pemandangan alam yang luar biasa. Pantai berpasir putih, hutan hujan tropis yang lebat, tebing-tebing batu karang yang menjulang, dan air terjun yang indah semuanya menjadi daya tarik utama. Alam Mentawai memberikan pengalaman eksotis bagi para pengunjungnya.Salah satu hal yang membuat Mentawai begitu menarik adalah keberadaan suku asli Mentawai, yang dikenal dengan nama "Orang Mentawai." Mereka memiliki budaya yang kaya, dengan tradisi dan ritus kuno, tato suku khas, dan rumah-rumah panjang tradisional yang unik.Mentawai adalah surga bagi para peselancar. Pulau-pulau ini dikelilingi oleh ombak-ombak spektakuler yang menarik peselancar dari seluruh dunia. Wilayah ini memiliki beberapa spot surfing terbaik di Indonesia, seperti Lances Left, Macaronis, dan banyak lagi.Mentawai adalah tempat yang ideal untuk melarikan diri dari kehidupan sehari- hari yang sibuk.Keindahan alamnya, jauh dari hiruk - pikuk perkotaan, membuatnya menjadi destinasi yang cocok untuk bersantai dan merenung.',
     },
     {
         id: 17,
@@ -168,7 +184,8 @@ export const DataWisata = [
         destination: 'Lombok',
         rating: 4.5,
         category: 'Mountain',
-        image: 'https://www.tripsavvy.com/thmb/KST2o8JptpGtShngNTUbvvITj5I=/2120x1414/filters:fill(auto,1)/GettyImages-498839091-5887fd623df78c2ccdd246d3.jpg'
+        image: 'https://www.tripsavvy.com/thmb/KST2o8JptpGtShngNTUbvvITj5I=/2120x1414/filters:fill(auto,1)/GettyImages-498839091-5887fd623df78c2ccdd246d3.jpg',
+        description: 'Gunung Rinjani adalah salah satu gunung yang paling menakjubkan di Indonesia dan terletak di Pulau Lombok, Nusa Tenggara Barat. Ini adalah gunung berapi aktif yang menawarkan pengalaman mendaki yang spektakuler dan melibatkan beragam pemandangan alam yang menakjubkan.Puncak Gunung Rinjani, yang dikenal sebagai "Segara Anak," adalah salah satu tujuan utama para pendaki. Puncak ini mencapai ketinggian sekitar 3.726 meter di atas permukaan laut dan menawarkan pemandangan yang mengagumkan. Dari puncak, Anda dapat melihat danau kawah yang indah, Segara Anak, yang dikelilingi oleh perbukitan dan dinding kawah yang tinggi.Kawah Segara Anak adalah ciri khas Gunung Rinjani. Danau ini terletak di dalam kawah gunung berapi dan memiliki air yang jernih dan biru. Anda dapat berenang di danau ini atau hanya menikmati pemandangan yang menakjubkan. ',
     },
 ]
 
