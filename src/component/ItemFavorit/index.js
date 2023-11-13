@@ -1,6 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Star1 } from 'iconsax-react-native';
+import { useNavigation } from '@react-navigation/native'
 
 const truncateTextByWords = (text, maxWords) => {
     const words = text.split(' ');
@@ -11,8 +12,10 @@ const truncateTextByWords = (text, maxWords) => {
 }
 
 const ItemFavorit = ({ item, onPress, variant }) => {
+    const navigation = useNavigation();
+
     return (
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('DetailTrip', { dataId: item.id })}>
             <Image source={{ uri: item.image }} style={styles.ImageCard} />
             <View style={{ marginVertical: 10, width: 200 }}>
                 <View style={{ flexDirection: 'row', justifyContent: "space-between", }}>

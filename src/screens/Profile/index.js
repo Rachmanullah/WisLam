@@ -2,13 +2,14 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { MyIlustrasi } from '../../assets'
 import { ArrowSquareRight, User, Star1, Setting2, LocationTick, Logout, } from 'iconsax-react-native'
+import { useNavigation } from '@react-navigation/native'
 
 const ProfileScreen = () => {
+    const navigation = useNavigation();
+
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.titleHeader}>Profile</Text>
-            </View>
+
             <View style={{ gap: 15, alignItems: 'center' }}>
                 <Image source={MyIlustrasi} style={styles.picture} />
                 <View style={{ gap: 5, alignItems: 'center' }}>
@@ -16,12 +17,12 @@ const ProfileScreen = () => {
                     <Text style={{ fontFamily: 'TitilliumWeb-Regular', color: '#9496A1' }}>rachmanullah1@gmail.com</Text>
                 </View>
                 <View style={styles.content}>
-                    <TouchableOpacity style={styles.itemContent}>
+                    <TouchableOpacity style={styles.itemContent} onPress={() => navigation.navigate('MyProfile')}>
                         <User size="25" color="#697689" />
                         <Text style={styles.titleItem}>Profile</Text>
                         <ArrowSquareRight size="25" color="#697689" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.itemContent}>
+                    <TouchableOpacity style={styles.itemContent} onPress={() => navigation.navigate('Favorite')}>
                         <Star1 size={25} color='#697689' />
                         <Text style={styles.titleItem}>Favorite</Text>
                         <ArrowSquareRight size="25" color="#697689" />

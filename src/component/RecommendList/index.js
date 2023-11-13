@@ -1,10 +1,13 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Location, Star1 } from 'iconsax-react-native'
+import { useNavigation } from '@react-navigation/native'
 
 const RecommendList = ({ data, onPress, variant }) => {
+    const navigation = useNavigation();
+
     return (
-        <View style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('DetailTrip', { dataId: data.id })}>
             <Image source={{ uri: data.image }} style={styles.CardImage} />
             <View style={styles.cardContent}>
                 <View style={{ flexDirection: 'row' }}>
@@ -24,7 +27,7 @@ const RecommendList = ({ data, onPress, variant }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

@@ -1,10 +1,10 @@
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { ImageBackground, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import colors from '../../theme/colors'
 
 const TravelStoriesList = ({ data }) => {
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container}>
             <ImageBackground source={{ uri: data.photo }} style={styles.photo}>
                 <View style={styles.content}>
                     <View style={styles.info}>
@@ -12,7 +12,7 @@ const TravelStoriesList = ({ data }) => {
                     </View>
                 </View>
             </ImageBackground>
-        </View>
+        </TouchableOpacity>
     )
 }
 

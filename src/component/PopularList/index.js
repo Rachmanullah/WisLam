@@ -1,21 +1,29 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import colors from '../../theme/colors'
-import { Location } from 'iconsax-react-native'
+import { Location, Star1 } from 'iconsax-react-native'
+import { useNavigation } from '@react-navigation/native'
 
-const PopularList = ({ data }) => {
+const PopularList = ({ data, onPress, variant }) => {
+    const navigation = useNavigation();
+
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('DetailTrip', { dataId: data.id })}>
             <Image source={{ uri: data.image }} style={styles.cardImage} />
             <View style={styles.content}>
-                <Text style={styles.category}>{data.category}</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: 230, alignItems: 'center' }}>
+                    <Text style={styles.category}>{data.category}</Text>
+                    <TouchableOpacity onPress={onPress}>
+                        <Star1 size={25} color='#dce775' variant={variant} />
+                    </TouchableOpacity>
+                </View>
                 <Text style={styles.title}>{data.name}</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
                     <Location size="18" color="#697689" variant="Bold" />
                     <Text style={styles.location}>{data.destination}</Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

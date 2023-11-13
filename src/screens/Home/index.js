@@ -1,5 +1,4 @@
 import {
-    Image,
     StyleSheet,
     Text,
     View,
@@ -13,6 +12,8 @@ import { SearchNormal, BucketSquare } from 'iconsax-react-native';
 import colors from '../../theme/colors';
 import { CategoryList, PopularList, RecommendList, TravelStoriesList } from '../../component';
 import { DataCategoryList, DataStories, DataWisata } from '../../../data';
+import { useGlobalDispatch, useGlobalState } from '../../context/GlobalStateProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SearchComponent = () => {
     return (
@@ -48,27 +49,87 @@ const RenderCategoryList = ({ selectedCategory, setSelectedCategory }) => {
             data={DataCategoryList}
             keyExtractor={item => item.id}
             renderItem={item => renderItem({ ...item })}
-            contentContainerStyle={{ gap: 10 }}
+            contentContainerStyle={{ gap: 10, paddingVertical: 10 }}
             horizontal
         />
     )
 }
 
 const RenderRecommend = ({ dataRender }) => {
+    const dispatch = useGlobalDispatch();
+    const { favorites, getFavorites, removeFavorite } = useGlobalState();
     const [loved, setLoved] = useState([]);
-    const toggleLoved = (itemId) => {
+    // const flattenedData = [];
+
+    // function flattenAndRemoveDuplicates(arr) {
+    //     for (const item of arr) {
+    //         if (Array.isArray(item)) {
+    //             // Jika item adalah array, panggil rekursif
+    //             flattenAndRemoveDuplicates(item);
+    //         } else {
+    //             // Jika item adalah angka
+    //             if (!flattenedData.includes(item)) {
+    //                 flattenedData.push(item);
+    //             }
+    //         }
+    //     }
+    // }
+    // const getItemFromAsyncStorage = async () => {
+    //     try {
+    //         const favoriteData = await AsyncStorage.getItem('favorites');
+    //         if (favoriteData) {
+    //             const parsedFavorites = JSON.parse(favoriteData);
+    //             flattenAndRemoveDuplicates(parsedFavorites)
+    //             setLoved(flattenedData);
+    //             console.log('HomeScreen : ' + flattenedData);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error getting favorites from AsyncStorage:', error);
+    //     }
+    // };
+    useEffect(() => {
+        setInterval(() => {
+            const fetchData = async () => {
+                const flattenedData = await getFavorites();
+                setLoved(flattenedData);
+            };
+            fetchData();
+        }, 3000);
+    }, []);
+
+    const toggleLoved = async (itemId) => {
+        // console.log(favorites)
         if (loved.includes(itemId)) {
-            setLoved(loved.filter(id => id !== itemId));
+            // Hapus item dari AsyncStorage
+            try {
+                const flattenedData = await getFavorites();
+                if (flattenedData) {
+                    // Hapus item dengan ID yang sesuai
+                    const updatedFavorites = flattenedData.filter(id => id !== itemId);
+                    // console.log(updatedFavorites)
+                    // Simpan kembali ke AsyncStorage
+                    await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+                    setLoved(loved.filter(id => id !== itemId));
+                    removeFavorite(itemId)
+                }
+            } catch (error) {
+                console.error('Error removing item from AsyncStorage:', error);
+            }
+
         } else {
+            dispatch({ type: 'ADD_FAVORITE', payload: itemId });
             setLoved([...loved, itemId]);
         }
     };
+
     const renderItem = ({ item }) => {
         variant = loved.includes(item.id) ? 'Bold' : 'Linear';
         return (
             <RecommendList
                 data={item}
-                onPress={() => toggleLoved(item.id)}
+                onPress={() => {
+                    toggleLoved(item.id)
+                }}
                 variant={variant}
             />
         )
@@ -85,12 +146,92 @@ const RenderRecommend = ({ dataRender }) => {
 };
 
 const RenderPopular = ({ dataRender }) => {
+    const [loved, setLoved] = useState([]);
+    const dispatch = useGlobalDispatch();
+    const { favorites, getFavorites, removeFavorite } = useGlobalState();
+
+    // const flattenedData = [];
+    // function flattenAndRemoveDuplicates(arr) {
+    //     for (const item of arr) {
+    //         if (Array.isArray(item)) {
+    //             // Jika item adalah array, panggil rekursif
+    //             flattenAndRemoveDuplicates(item);
+    //         } else {
+    //             // Jika item adalah angka
+    //             if (!flattenedData.includes(item)) {
+    //                 flattenedData.push(item);
+    //             }
+    //         }
+    //     }
+    // }
+    // const getItemFromAsyncStorage = async () => {
+    //     try {
+    //         const favoriteData = await AsyncStorage.getItem('favorites');
+    //         if (favoriteData) {
+    //             const parsedFavorites = JSON.parse(favoriteData);
+    //             flattenAndRemoveDuplicates(parsedFavorites)
+    //             setLoved(flattenedData);
+
+    //         }
+    //     } catch (error) {
+    //         console.error('Error getting favorites from AsyncStorage:', error);
+    //     }
+    // };
+    useEffect(() => {
+        setInterval(() => {
+            const fetchData = async () => {
+                const flattenedData = await getFavorites();
+                setLoved(flattenedData);
+            };
+            fetchData();
+        }, 3000);
+    }, []);
+
+    const toggleLoved = async (itemId) => {
+        if (loved.includes(itemId)) {
+            // Hapus item dari AsyncStorage
+            try {
+                const flattenedData = await getFavorites();
+                if (flattenedData) {
+                    // Hapus item dengan ID yang sesuai
+                    const updatedFavorites = flattenedData.filter(id => id !== itemId);
+                    // console.log(updatedFavorites)
+                    // Simpan kembali ke AsyncStorage
+                    await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+                    setLoved(loved.filter(id => id !== itemId));
+                    removeFavorite(itemId)
+                }
+            } catch (error) {
+                console.error('Error removing item from AsyncStorage:', error);
+            }
+
+        } else {
+            dispatch({ type: 'ADD_FAVORITE', payload: itemId });
+            setLoved([...loved, itemId]);
+        }
+    };
+    // const handleAddFavorite = (id) => {
+    //     dispatch({ type: 'ADD_FAVORITE', payload: id });
+    // };
+
     return (
         <View style={{ gap: 15 }}>
             {
-                dataRender.map((item, index) => (
-                    <PopularList data={item} key={index} />
-                ))
+                dataRender.map((item, index) => {
+                    const variant = loved.includes(item.id) ? 'Bold' : 'Linear';
+
+                    return (
+                        <PopularList
+                            data={item}
+                            onPress={() => {
+                                toggleLoved(item.id);
+                                // handleAddFavorite(item.id);
+                            }}
+                            variant={variant}
+                            key={index}
+                        />
+                    );
+                })
             }
         </View>
     );
@@ -118,6 +259,7 @@ const HomeScreen = () => {
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [DataRecommend, setDataRecommend] = useState([])
     const [DataPopular, setDataPopular] = useState([])
+
     useEffect(() => {
         const DataAcak = DataWisata.sort(() => Math.random());
         if (selectedCategory) {
@@ -141,7 +283,7 @@ const HomeScreen = () => {
                     <BucketSquare size="35" color="#555555" variant="Bold" />
                 </View>
             </View>
-            <ScrollView style={{ margin: 10 }}>
+            <ScrollView style={{ margin: 10, gap: 10 }}>
                 <Text style={styles.label}>Wonderful Indonesia</Text>
                 <Text style={styles.label}>Let’s Explore Together </Text>
                 <SearchComponent />
