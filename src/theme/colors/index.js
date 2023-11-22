@@ -1,6 +1,14 @@
 const colors = {
-    sekunder: "#1C9FE2",
-    darkModeBlack: (opacity = 1) => `rgba(27, 27, 27, ${opacity})`,
-    darkModeBlue: (opacity = 1) => `rgba(146, 156, 241, ${opacity})`,
+    sekunder: "#eb8d3b",
+    darkMode: {
+        theme: 'dark',
+        backgroundColor: "#2A2A2A",
+        textColor: '#FEFEFE',
+    },
+    lightMode: {
+        theme: 'light',
+        backgroundColor: "#FEFEFE",
+        textColor: '#000000',
+    },
 }
 export default colors

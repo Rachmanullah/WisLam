@@ -4,7 +4,8 @@ import ProfileScreen from "./Profile";
 import SearchScreen from "./Search";
 import DetailTrip from "./DetailTrip";
 import MyProfile from "./Profile/MyProfile";
-
+import Settings from "./Settings";
+import ThemeScreen from "./Theme";
 export {
     HomeScreen,
     FavoriteScreen,
@@ -12,4 +13,6 @@ export {
     SearchScreen,
     DetailTrip,
     MyProfile,
+    Settings,
+    ThemeScreen,
 }

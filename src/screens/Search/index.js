@@ -1,11 +1,12 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, } from 'react-native'
-import React, { useState } from 'react'
-import { SearchNormal, DocumentFilter, FolderMinus } from 'iconsax-react-native'
+import React, { useState, useContext } from 'react'
+import { SearchNormal, DocumentFilter, FolderMinus, CloseCircle } from 'iconsax-react-native'
 import { PopularList } from '../../component';
 import { DataWisata } from '../../../data';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useGlobalDispatch, useGlobalState } from '../../context/GlobalStateProvider';
-
+import colors from '../../theme/colors';
+import ThemeContext from '../../context/GlobalStateProvider';
 
 const SearchScreen = () => {
     const dispatch = useGlobalDispatch();
@@ -14,6 +15,8 @@ const SearchScreen = () => {
     const [result, setResult] = useState([]);
     const [isFavorites, setIsFavorites] = useState([]);
     const [showResult, setShowResult] = useState(false);
+    const theme = useContext(ThemeContext)
+
     const onPressSearch = async () => {
         const flattenedData = await getFavorites();
         const filteredData = DataWisata.filter(item => {
@@ -26,6 +29,11 @@ const SearchScreen = () => {
         setIsFavorites(updatedFavorites)
         setResult(filteredData)
         setShowResult(true)
+    }
+
+    const clearTextInput = () => {
+        setSearch('')
+        setResult([])
     }
 
     const toggleLoved = async (itemId) => {
@@ -53,10 +61,10 @@ const SearchScreen = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
             <View style={styles.box}>
                 <View style={styles.search}>
-                    <SearchNormal size={25} color='#697689' />
+                    <SearchNormal size={23} color='#697689' />
                     <TextInput
                         placeholder='Search Destination'
                         style={styles.input}
@@ -64,6 +72,12 @@ const SearchScreen = () => {
                         value={search}
                         onChangeText={text => setSearch(text)}
                     />
+                    {search ?
+                        <TouchableOpacity onPress={() => clearTextInput()}>
+                            <CloseCircle size={23} color='#697689' />
+                        </TouchableOpacity>
+                        : ''
+                    }
                 </View>
                 <TouchableOpacity
                     onPress={() => onPressSearch()}
@@ -78,7 +92,7 @@ const SearchScreen = () => {
                 </TouchableOpacity>
             </View>
             <ScrollView style={{ marginHorizontal: 10 }}>
-                <Text style={{ fontFamily: 'Inter-Bold', fontSize: 18, color: 'black', marginBottom: 10 }}>search result</Text>
+                <Text style={{ fontFamily: 'Inter-Bold', fontSize: 18, color: theme.textColor, marginBottom: 10, marginLeft: 10 }}>search result</Text>
                 {
                     <View style={{ gap: 15, paddingBottom: 20 }}>
                         {
@@ -98,11 +112,11 @@ const SearchScreen = () => {
                                 }) :
                                 showResult ?
                                     <View View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '50%' }}>
-                                        <FolderMinus size="100" color="#697689" />
+                                        <FolderMinus size="100" color={colors.sekunder} />
                                         <Text style={{
                                             fontFamily: 'TitilliumWeb-Regular',
                                             fontSize: 18,
-                                            color: '#697689',
+                                            color: colors.sekunder,
                                         }}>Tidak ada data Yang Ditemukan</Text>
                                     </View>
                                     :
@@ -143,6 +157,6 @@ const styles = StyleSheet.create({
         color: 'black',
         fontFamily: 'TitilliumWeb-Regular',
         fontSize: 18,
-        width: 200,
+        width: 170,
     }
 })

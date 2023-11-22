@@ -1,7 +1,9 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View, Animated } from 'react-native'
+import React, { useRef, useEffect, useContext } from 'react'
 import { Star1 } from 'iconsax-react-native';
 import { useNavigation } from '@react-navigation/native'
+import ThemeContext from '../../context/GlobalStateProvider'
+import colors from '../../theme/colors'
 
 const truncateTextByWords = (text, maxWords) => {
     const words = text.split(' ');
@@ -13,24 +15,35 @@ const truncateTextByWords = (text, maxWords) => {
 
 const ItemFavorit = ({ item, onPress, variant }) => {
     const navigation = useNavigation();
+    const theme = useContext(ThemeContext);
 
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    useEffect(() => {
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 800,
+            useNativeDriver: true,
+        }).start();
+    }, [])
     return (
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('DetailTrip', { dataId: item.id })}>
-            <Image source={{ uri: item.image }} style={styles.ImageCard} />
-            <View style={{ marginVertical: 10, width: 200 }}>
-                <View style={{ flexDirection: 'row', justifyContent: "space-between", }}>
-                    <View style={{ width: 170 }}>
-                        <Text style={styles.TitleCard}>{truncateTextByWords(item.name, 3)}</Text>
+        <Animated.View style={{ opacity: fadeAnim }}>
+            <TouchableOpacity style={[styles.card, { backgroundColor: theme.theme === 'dark' ? colors.sekunder : '#FEFEFE' }]} onPress={() => navigation.navigate('DetailTrip', { dataId: item.id })}>
+                <Image source={{ uri: item.image }} style={styles.ImageCard} />
+                <View style={{ marginVertical: 10, width: 200 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: "space-between", }}>
+                        <View style={{ width: 170 }}>
+                            <Text style={[styles.TitleCard, { color: theme.textColor }]}>{truncateTextByWords(item.name, 3)}</Text>
+                        </View>
+                        <TouchableOpacity onPress={onPress}>
+                            <Star1 size={25} variant={variant} color={theme.theme === 'dark' ? '#FEFEFE' : colors.sekunder} />
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={onPress}>
-                        <Star1 size={25} variant={variant} color='yellow' />
-                    </TouchableOpacity>
+                    <Text style={[styles.blogContent, { color: theme.theme === 'dark' ? theme.textColor : '#9496A1' }]}>
+                        {truncateTextByWords(item.description, 7)}
+                    </Text>
                 </View>
-                <Text style={styles.blogContent}>
-                    {truncateTextByWords(item.description, 7)}
-                </Text>
-            </View>
-        </TouchableOpacity>
+            </TouchableOpacity>
+        </Animated.View>
     )
 }
 
@@ -39,10 +52,10 @@ export default ItemFavorit
 const styles = StyleSheet.create({
     card: {
         borderRadius: 20,
-        backgroundColor: 'white',
-        elevation: 10,
+        elevation: 7,
         flexDirection: 'row',
         gap: 15,
+        shadowColor: '#050505',
     },
     ImageCard: {
         width: 100,

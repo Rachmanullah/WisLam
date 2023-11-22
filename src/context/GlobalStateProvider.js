@@ -4,7 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GlobalStateContext = createContext();
 const GlobalDispatchContext = createContext();
+const ThemeContext = createContext();
 
+export default ThemeContext;
 const initialState = {
     favorites: [],
 };
@@ -28,7 +30,6 @@ export const GlobalStateProvider = ({ children }) => {
 
     useEffect(() => {
         // Mengambil data favorit dari AsyncStorage saat aplikasi dimulai
-        // setInterval(() => {
         AsyncStorage.getItem('favorites')
             .then((favorites) => {
                 if (favorites) {
@@ -37,7 +38,6 @@ export const GlobalStateProvider = ({ children }) => {
                 }
             })
             .catch((error) => console.error('Error getting favorites from AsyncStorage:', error));
-        // }, 10000);
     }, []);
 
     // Menyimpan daftar favorit ke AsyncStorage setiap kali state berubah
@@ -58,7 +58,7 @@ export const GlobalStateProvider = ({ children }) => {
         }
         flattenAndRemoveDuplicates(state.favorites);
         const favoritesToSave = JSON.stringify(flattenedData)
-        console.log(favoritesToSave)
+        // console.log(favoritesToSave)
         AsyncStorage.setItem('favorites', favoritesToSave)
             .catch((error) => console.error('Error saving favorites to AsyncStorage:', error));
     }, [state.favorites]);

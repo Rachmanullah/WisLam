@@ -1,50 +1,18 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ItemFavorit } from '../../component'
 import { DataWisata } from '../../../data'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useGlobalState } from '../../context/GlobalStateProvider'
 import { FolderMinus } from 'iconsax-react-native';
-
+import colors from '../../theme/colors';
+import ThemeContext from '../../context/GlobalStateProvider';
 const FavoriteScreen = () => {
     const { favorites, getFavorites, removeFavorite } = useGlobalState();
     const [favoriteData, setFavoriteData] = useState([]);
     const [showResult, setShowResult] = useState(true);
+    const theme = useContext(ThemeContext)
 
-    // function flattenAndRemoveDuplicates(arr) {
-    //     for (const item of arr) {
-    //         if (Array.isArray(item)) {
-    //             // Jika item adalah array, panggil rekursif
-    //             flattenAndRemoveDuplicates(item);
-    //         } else {
-    //             // Jika item adalah angka
-    //             if (!flattenedData.includes(item)) {
-    //                 flattenedData.push(item);
-    //             }
-    //         }
-    //     }
-    // }
-    // const getItemFromAsyncStorage = async () => {
-    //     try {
-    //         // AsyncStorage.setItem('favorites', '')
-    //         const favoriteData = await AsyncStorage.getItem('favorites');
-    //         if (favoriteData) {
-    //             const parsedFavorites = JSON.parse(favoriteData);
-    //             flattenAndRemoveDuplicates(parsedFavorites)
-
-    //             const Data = DataWisata.filter((item) =>
-    //                 flattenedData.includes(item.id)
-
-    //             );
-    //             setFavoriteData(Data);
-    //             // console.log(parsedFavorites);
-    //             console.log('FavoriteScreen : ' + flattenedData);
-
-    //         }
-    //     } catch (error) {
-    //         console.error('Error getting favorites from AsyncStorage:', error);
-    //     }
-    // };
     const toggleLoved = async (itemId) => {
         if (favoriteData.find(item => item.id === itemId)) {
             try {
@@ -52,7 +20,6 @@ const FavoriteScreen = () => {
                 if (flattenedData) {
                     // Hapus item dengan ID yang sesuai
                     const updatedFavorites = flattenedData.filter(id => id !== itemId);
-                    // console.log(updatedFavorites)
                     // Simpan kembali ke AsyncStorage
                     await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
                     setFavoriteData(favoriteData.find(item => item.id !== itemId));
@@ -67,7 +34,6 @@ const FavoriteScreen = () => {
     useEffect(() => {
         setInterval(() => {
             const fetchData = async () => {
-                // AsyncStorage.setItem('favorites', '')
                 const flattenedData = await getFavorites();
                 const Data = DataWisata.filter((item) =>
                     flattenedData.includes(item.id)
@@ -84,9 +50,9 @@ const FavoriteScreen = () => {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
             <View style={styles.header}>
-                <Text style={styles.title}>Favorite</Text>
+                <Text style={[styles.title, { color: theme.textColor }]}>Favorite</Text>
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ paddingHorizontal: 15, gap: 10, paddingVertical: 10 }}>
@@ -109,11 +75,11 @@ const FavoriteScreen = () => {
                             }) :
                             showResult ?
                                 <View View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '50%' }}>
-                                    <FolderMinus size="100" color="#697689" />
+                                    <FolderMinus size="100" color={colors.sekunder} />
                                     <Text style={{
                                         fontFamily: 'TitilliumWeb-Regular',
                                         fontSize: 18,
-                                        color: '#697689',
+                                        color: colors.sekunder,
                                     }}>Tidak ada data Favorite</Text>
                                 </View>
                                 :

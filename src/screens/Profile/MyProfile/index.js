@@ -1,19 +1,21 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { ArrowLeft } from 'iconsax-react-native';
 import { MyIlustrasi } from '../../../assets';
 import colors from '../../../theme/colors';
+import ThemeContext from '../../../context/GlobalStateProvider';
 
 const MyProfile = () => {
     const navigation = useNavigation();
+    const theme = useContext(ThemeContext);
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <ArrowLeft
-                        color='grey'
+                        color='#FFFFFF'
                         variant="Linear"
                         size={24}
                     />
@@ -32,7 +34,7 @@ const MyProfile = () => {
                 <Image source={MyIlustrasi} style={styles.picture} />
             </TouchableOpacity>
             <View style={{ gap: 10, alignItems: 'center', marginHorizontal: 30 }}>
-                <Text style={styles.label}>Name</Text>
+                <Text style={[styles.label, { color: theme.textColor }]}>Name</Text>
                 <View style={styles.inputan}>
                     <TextInput
                         style={{ fontSize: 18, color: 'black', paddingHorizontal: 10 }}
@@ -42,7 +44,7 @@ const MyProfile = () => {
                     // value={email}
                     />
                 </View>
-                <Text style={styles.label}>Email</Text>
+                <Text style={[styles.label, { color: theme.textColor }]}>Email</Text>
                 <View style={styles.inputan}>
                     <TextInput
                         style={{ fontSize: 18, color: 'black', paddingHorizontal: 10, width: 'auto' }}
@@ -53,7 +55,7 @@ const MyProfile = () => {
                     // value={email}
                     />
                 </View>
-                <Text style={styles.label}>No Phone</Text>
+                <Text style={[styles.label, { color: theme.textColor }]}>No Phone</Text>
                 <View style={styles.inputan}>
                     <TextInput
                         style={{ fontSize: 18, color: 'black', paddingHorizontal: 10 }}
@@ -65,7 +67,7 @@ const MyProfile = () => {
                     // value={email}
                     />
                 </View>
-                <Text style={styles.label}>Address</Text>
+                <Text style={[styles.label, { color: theme.textColor }]}>Address</Text>
                 <View style={styles.inputan}>
                     <TextInput
                         style={{ fontSize: 18, color: 'black', paddingHorizontal: 10 }}
@@ -109,13 +111,13 @@ const styles = StyleSheet.create({
         top: 0,
         right: 0,
         left: 0,
-        backgroundColor: '#FEFEFE',
+        backgroundColor: colors.sekunder,
         elevation: 10
     },
     titleHeader: {
         fontSize: 20,
         fontFamily: 'Inter-ExtraBold',
-        color: 'black',
+        color: '#FEFEFE',
         letterSpacing: -0.3,
     },
     picture: {

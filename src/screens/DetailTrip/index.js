@@ -1,20 +1,21 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { ArrowLeft, Location, Star1, } from 'iconsax-react-native'
 import colors from '../../theme/colors'
 import { DataWisata } from '../../../data'
 import { useNavigation } from '@react-navigation/native'
-
+import ThemeContext from '../../context/GlobalStateProvider'
 const DetailTrip = ({ route }) => {
     const { dataId } = route.params;
     const selectedData = DataWisata.find(data => data.id === dataId);
     const navigation = useNavigation();
+    const theme = useContext(ThemeContext)
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <ArrowLeft
-                        color='grey'
+                        color='#FFFFFF'
                         variant="Linear"
                         size={24}
                     />
@@ -29,21 +30,20 @@ const DetailTrip = ({ route }) => {
                 </View> */}
             </View>
             <Image source={{ uri: selectedData.image }} style={styles.itemImages} />
-            <View style={styles.content} >
-
-                <Text style={styles.title}>{selectedData.name}</Text>
+            <View style={[styles.content, { backgroundColor: theme.backgroundColor }]} >
+                <Text style={[styles.title, { color: theme.textColor }]}>{selectedData.name}</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 10 }}>
                     <Location size={20} color={colors.sekunder} variant='Bold' />
-                    <Text style={styles.location}>{selectedData.destination}</Text>
+                    <Text style={[styles.location, { color: theme.textColor }]}>{selectedData.destination}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 10 }}>
-                    <Text style={styles.rating}>{selectedData.rating}</Text>
-                    <Star1 variant='Bold' size={20} color='#dce775' />
+                    <Text style={[styles.rating, { color: theme.textColor }]}>{selectedData.rating}</Text>
+                    <Star1 variant='Bold' size={20} color={theme.theme === 'dark' ? '#FEFEFE' : colors.sekunder} />
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
                     paddingBottom: 500,
                 }}>
-                    <Text style={styles.descrition}>
+                    <Text style={[styles.descrition, { color: theme.textColor }]}>
                         {selectedData.description}
                     </Text>
                 </ScrollView>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         top: 0,
         right: 0,
         left: 0,
-        backgroundColor: '#FEFEFE',
+        backgroundColor: colors.sekunder,
     },
     itemImages: {
         width: 'auto',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: 'auto',
         height: 50,
-        backgroundColor: '#11121B',
+        backgroundColor: colors.sekunder,
         marginTop: -480,
         borderRadius: 20,
     }

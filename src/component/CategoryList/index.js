@@ -2,13 +2,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import colors from '../../theme/colors'
 
-const CategoryList = ({ data, onPress, colors }) => {
+const CategoryList = ({ data, onPress, colors, labelColors }) => {
     return (
         <TouchableOpacity
             onPress={onPress}
         >
             <View style={{ ...styles.card, backgroundColor: colors, }}>
-                <Text style={styles.titleCard}>{data.category}</Text>
+                <Text style={{ color: labelColors }}>{data.category}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -28,7 +28,4 @@ const styles = StyleSheet.create({
         shadowColor: 'black',
         elevation: 5
     },
-    titleCard: {
-        color: 'black'
-    }
 })

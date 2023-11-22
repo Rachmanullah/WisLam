@@ -7,14 +7,14 @@ import {
     TouchableOpacity,
     FlatList,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { SearchNormal, BucketSquare } from 'iconsax-react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { SearchNormal, Sun1 } from 'iconsax-react-native';
 import colors from '../../theme/colors';
 import { CategoryList, PopularList, RecommendList, TravelStoriesList } from '../../component';
 import { DataCategoryList, DataStories, DataWisata } from '../../../data';
-import { useGlobalDispatch, useGlobalState } from '../../context/GlobalStateProvider';
+import ThemeContext, { useGlobalDispatch, useGlobalState } from '../../context/GlobalStateProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { EventRegister } from 'react-native-event-listeners';
 const SearchComponent = () => {
     return (
         <View style={SearchStyle.container}>
@@ -36,11 +36,13 @@ const SearchComponent = () => {
 const RenderCategoryList = ({ selectedCategory, setSelectedCategory }) => {
     const renderItem = ({ item }) => {
         const color = item.category === selectedCategory ? colors.sekunder : 'white';
+        const labelColor = item.category === selectedCategory ? '#FEFEFE' : '#000000';
         return (
             <CategoryList
                 data={item}
                 onPress={() => setSelectedCategory(item.category)}
                 colors={color}
+                labelColors={labelColor}
             />
         )
     }
@@ -51,6 +53,8 @@ const RenderCategoryList = ({ selectedCategory, setSelectedCategory }) => {
             renderItem={item => renderItem({ ...item })}
             contentContainerStyle={{ gap: 10, paddingVertical: 10 }}
             horizontal
+            showsHorizontalScrollIndicator={false}
+
         />
     )
 }
@@ -59,34 +63,7 @@ const RenderRecommend = ({ dataRender }) => {
     const dispatch = useGlobalDispatch();
     const { favorites, getFavorites, removeFavorite } = useGlobalState();
     const [loved, setLoved] = useState([]);
-    // const flattenedData = [];
 
-    // function flattenAndRemoveDuplicates(arr) {
-    //     for (const item of arr) {
-    //         if (Array.isArray(item)) {
-    //             // Jika item adalah array, panggil rekursif
-    //             flattenAndRemoveDuplicates(item);
-    //         } else {
-    //             // Jika item adalah angka
-    //             if (!flattenedData.includes(item)) {
-    //                 flattenedData.push(item);
-    //             }
-    //         }
-    //     }
-    // }
-    // const getItemFromAsyncStorage = async () => {
-    //     try {
-    //         const favoriteData = await AsyncStorage.getItem('favorites');
-    //         if (favoriteData) {
-    //             const parsedFavorites = JSON.parse(favoriteData);
-    //             flattenAndRemoveDuplicates(parsedFavorites)
-    //             setLoved(flattenedData);
-    //             console.log('HomeScreen : ' + flattenedData);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error getting favorites from AsyncStorage:', error);
-    //     }
-    // };
     useEffect(() => {
         setInterval(() => {
             const fetchData = async () => {
@@ -98,15 +75,12 @@ const RenderRecommend = ({ dataRender }) => {
     }, []);
 
     const toggleLoved = async (itemId) => {
-        // console.log(favorites)
         if (loved.includes(itemId)) {
-            // Hapus item dari AsyncStorage
             try {
                 const flattenedData = await getFavorites();
                 if (flattenedData) {
                     // Hapus item dengan ID yang sesuai
                     const updatedFavorites = flattenedData.filter(id => id !== itemId);
-                    // console.log(updatedFavorites)
                     // Simpan kembali ke AsyncStorage
                     await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
                     setLoved(loved.filter(id => id !== itemId));
@@ -141,6 +115,7 @@ const RenderRecommend = ({ dataRender }) => {
             renderItem={item => renderItem({ ...item })}
             contentContainerStyle={{ gap: 10 }}
             horizontal
+            showsHorizontalScrollIndicator={false}
         />
     );
 };
@@ -150,33 +125,6 @@ const RenderPopular = ({ dataRender }) => {
     const dispatch = useGlobalDispatch();
     const { favorites, getFavorites, removeFavorite } = useGlobalState();
 
-    // const flattenedData = [];
-    // function flattenAndRemoveDuplicates(arr) {
-    //     for (const item of arr) {
-    //         if (Array.isArray(item)) {
-    //             // Jika item adalah array, panggil rekursif
-    //             flattenAndRemoveDuplicates(item);
-    //         } else {
-    //             // Jika item adalah angka
-    //             if (!flattenedData.includes(item)) {
-    //                 flattenedData.push(item);
-    //             }
-    //         }
-    //     }
-    // }
-    // const getItemFromAsyncStorage = async () => {
-    //     try {
-    //         const favoriteData = await AsyncStorage.getItem('favorites');
-    //         if (favoriteData) {
-    //             const parsedFavorites = JSON.parse(favoriteData);
-    //             flattenAndRemoveDuplicates(parsedFavorites)
-    //             setLoved(flattenedData);
-
-    //         }
-    //     } catch (error) {
-    //         console.error('Error getting favorites from AsyncStorage:', error);
-    //     }
-    // };
     useEffect(() => {
         setInterval(() => {
             const fetchData = async () => {
@@ -189,14 +137,10 @@ const RenderPopular = ({ dataRender }) => {
 
     const toggleLoved = async (itemId) => {
         if (loved.includes(itemId)) {
-            // Hapus item dari AsyncStorage
             try {
                 const flattenedData = await getFavorites();
                 if (flattenedData) {
-                    // Hapus item dengan ID yang sesuai
                     const updatedFavorites = flattenedData.filter(id => id !== itemId);
-                    // console.log(updatedFavorites)
-                    // Simpan kembali ke AsyncStorage
                     await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
                     setLoved(loved.filter(id => id !== itemId));
                     removeFavorite(itemId)
@@ -210,10 +154,6 @@ const RenderPopular = ({ dataRender }) => {
             setLoved([...loved, itemId]);
         }
     };
-    // const handleAddFavorite = (id) => {
-    //     dispatch({ type: 'ADD_FAVORITE', payload: id });
-    // };
-
     return (
         <View style={{ gap: 15 }}>
             {
@@ -225,7 +165,6 @@ const RenderPopular = ({ dataRender }) => {
                             data={item}
                             onPress={() => {
                                 toggleLoved(item.id);
-                                // handleAddFavorite(item.id);
                             }}
                             variant={variant}
                             key={index}
@@ -252,6 +191,7 @@ const RenderTravelStories = () => {
             renderItem={item => renderItem({ ...item })}
             contentContainerStyle={{ gap: 10 }}
             horizontal
+            showsHorizontalScrollIndicator={false}
         />
     )
 }
@@ -259,40 +199,48 @@ const HomeScreen = () => {
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [DataRecommend, setDataRecommend] = useState([])
     const [DataPopular, setDataPopular] = useState([])
-
+    const [mode, SetMode] = useState(false)
+    const theme = useContext(ThemeContext)
     useEffect(() => {
         const DataAcak = DataWisata.sort(() => Math.random());
         if (selectedCategory) {
             const FilterData = DataAcak.filter(item => item.category === selectedCategory)
             setDataRecommend(FilterData.slice(0, 5))
-            setDataPopular(FilterData.slice(5, 15))
+            setDataPopular(FilterData.slice(5, 10))
         } else {
             setDataRecommend(DataAcak.slice(0, 5))
-            setDataPopular(DataAcak.slice(5, 15))
+            setDataPopular(DataAcak.slice(5, 10))
         }
     }, [DataWisata, selectedCategory])
-
+    // useEffect(() => {
+    //     console.log(theme)
+    // }, [])
     return (
-        <View style={styles.container}>
-            <View style={styles.topBars}>
+        <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+            <View style={[styles.topBars, { backgroundColor: theme.theme === 'dark' ? colors.sekunder : '#FEFEFE' }]}>
                 <View style={styles.location}>
-                    <Text style={styles.titleCurrent}>Current Location</Text>
-                    <Text style={styles.titleUserLocation}>Malang, IDN</Text>
+                    <Text style={[styles.titleCurrent, { color: theme.textColor }]}>Current Location</Text>
+                    <Text style={[styles.titleUserLocation, , { color: theme.textColor }]}>Malang, IDN</Text>
                 </View>
-                <View style={styles.theme}>
-                    <BucketSquare size="35" color="#555555" variant="Bold" />
-                </View>
+                <TouchableOpacity
+                    style={styles.theme}
+                    onPress={() => {
+                        SetMode(!mode)
+                        EventRegister.emit("changeTheme", mode)
+                    }}>
+                    <Sun1 size="35" color={theme.theme === 'dark' ? '#FEFEFE' : '#555555'} variant="Bold" />
+                </TouchableOpacity>
             </View>
-            <ScrollView style={{ margin: 10, gap: 10 }}>
-                <Text style={styles.label}>Wonderful Indonesia</Text>
-                <Text style={styles.label}>Let’s Explore Together </Text>
+            <ScrollView style={{ margin: 10, gap: 10 }} showsVerticalScrollIndicator={false}>
+                <Text style={[styles.label, { color: theme.textColor }]}>Wonderful Indonesia</Text>
+                <Text style={[styles.label, { color: theme.textColor }]}>Let’s Explore Together </Text>
                 <SearchComponent />
                 <RenderCategoryList selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
                 <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center' }}>
                     <Text
                         style={{
                             fontFamily: 'DavidLibre-Bold',
-                            color: 'black',
+                            color: theme.textColor,
                             fontSize: 20,
                             paddingVertical: 10,
                         }}>
@@ -309,7 +257,7 @@ const HomeScreen = () => {
                     <Text
                         style={{
                             fontFamily: 'DavidLibre-Bold',
-                            color: 'black',
+                            color: theme.textColor,
                             fontSize: 20,
                             paddingVertical: 10,
                         }}>
@@ -335,7 +283,7 @@ const HomeScreen = () => {
                     <Text
                         style={{
                             fontFamily: 'DavidLibre-Bold',
-                            color: 'black',
+                            color: theme.textColor,
                             fontSize: 20,
                             paddingVertical: 10,
                         }}>
@@ -367,7 +315,6 @@ const styles = StyleSheet.create({
     topBars: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: 'white',
         elevation: 10,
         padding: 5,
     },
@@ -388,7 +335,7 @@ const styles = StyleSheet.create({
         margin: 5,
         padding: 5,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     ImagesProfile: {
         width: 40,

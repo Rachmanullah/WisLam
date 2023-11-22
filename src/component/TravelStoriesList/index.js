@@ -47,6 +47,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Stylish-Regular',
         fontSize: 18,
         padding: 5,
-        backgroundColor: colors.darkModeBlack(0.50),
+        backgroundColor: colors.darkMode.background,
     }
 })

@@ -1,20 +1,22 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import colors from '../theme/colors';
-import { DetailTrip, FavoriteScreen, HomeScreen, MyProfile, ProfileScreen, SearchScreen } from '../screens';
+import { DetailTrip, FavoriteScreen, HomeScreen, MyProfile, ProfileScreen, SearchScreen, Settings, ThemeScreen } from '../screens';
 import { Heart, Home2, ProfileCircle, SearchNormal } from 'iconsax-react-native';
+import ThemeContext from '../context/GlobalStateProvider';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function MainApp() {
+    const theme = useContext(ThemeContext)
     return (
         <Tab.Navigator
             screenOptions={{
                 tabBarHideOnKeyboard: true,
                 tabBarActiveTintColor: colors.sekunder,
-                tabBarInactiveTintColor: 'black',
+                tabBarInactiveTintColor: theme.textColor,
                 tabBarStyle: {
                     paddingBottom: 10,
                     paddingTop: 10,
@@ -120,7 +122,29 @@ const Router = () => {
                     gestureEnabled: true,
                     gestureDirection: 'horizontal',
                     ...TransitionPresets.ModalSlideFromBottomIOS,
-
+                }}
+            />
+            <Stack.Screen
+                name="Settings"
+                component={Settings}
+                options={{
+                    headerShown: false,
+                    animationEnabled: true,
+                    animationTypeForReplace: 'pop',
+                    gestureEnabled: true,
+                    gestureDirection: 'horizontal',
+                    ...TransitionPresets.ModalSlideFromBottomIOS,
+                }}
+            /><Stack.Screen
+                name="ThemeScreen"
+                component={ThemeScreen}
+                options={{
+                    headerShown: false,
+                    animationEnabled: true,
+                    animationTypeForReplace: 'pop',
+                    gestureEnabled: true,
+                    gestureDirection: 'horizontal',
+                    ...TransitionPresets.SlideFromRightIOS,
                 }}
             />
         </Stack.Navigator>
