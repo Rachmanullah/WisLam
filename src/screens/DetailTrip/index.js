@@ -1,15 +1,38 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useContext } from 'react'
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native'
+import React, { useContext, useState, useRef } from 'react'
 import { ArrowLeft, Location, Star1, } from 'iconsax-react-native'
 import colors from '../../theme/colors'
 import { DataWisata } from '../../../data'
 import { useNavigation } from '@react-navigation/native'
 import ThemeContext from '../../context/GlobalStateProvider'
+import ActionSheet from 'react-native-actions-sheet';
+
 const DetailTrip = ({ route }) => {
     const { dataId } = route.params;
     const selectedData = DataWisata.find(data => data.id === dataId);
     const navigation = useNavigation();
+    const [person, setPerson] = useState(0);
     const theme = useContext(ThemeContext)
+    const actionSheetRef = useRef(null);
+
+    const openActionSheet = () => {
+        actionSheetRef.current?.show();
+    };
+
+    const closeActionSheet = () => {
+        actionSheetRef.current?.hide();
+    };
+
+    const handleButton = () => {
+        if (person <= 4 && person > 0) {
+            navigation.navigate('FormBooking', {
+                dataId: dataId,
+                person: person
+            })
+            closeActionSheet()
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -20,14 +43,6 @@ const DetailTrip = ({ route }) => {
                         size={24}
                     />
                 </TouchableOpacity>
-                {/* <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 20 }}>
-                    <Share color={colors.grey(0.6)} variant="Linear" size={24} />
-                    <More
-                        color={colors.grey(0.6)}
-                        variant="Linear"
-                        style={{ transform: [{ rotate: '90deg' }] }}
-                    />
-                </View> */}
             </View>
             <Image source={{ uri: selectedData.image }} style={styles.itemImages} />
             <View style={[styles.content, { backgroundColor: theme.backgroundColor }]} >
@@ -47,12 +62,69 @@ const DetailTrip = ({ route }) => {
                         {selectedData.description}
                     </Text>
                 </ScrollView>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={openActionSheet}>
                     <Text style={{ fontFamily: 'TitilliumWeb-Bold', fontSize: 20, color: '#FEFEFE' }}>
                         Booking
                     </Text>
                 </TouchableOpacity>
             </View>
+            <ActionSheet
+                ref={actionSheetRef}
+                containerStyle={{
+                    borderTopLeftRadius: 25,
+                    borderTopRightRadius: 25,
+                    backgroundColor: theme.theme === 'dark' ? '#000000' : '#FEFEFE'
+                }}
+                indicatorStyle={{
+                    width: 100,
+                }}
+                gestureEnabled={true}
+                defaultOverlayOpacity={0.3}>
+                <View style={textInput.container}>
+                    <TextInput
+                        placeholder='Person'
+                        style={[textInput.input, { color: theme.textColor }]}
+                        placeholderTextColor={theme.theme === 'dark' ? '#FEFEFE' : '#565e56'}
+                        // value={person}
+                        onChangeText={text => setPerson(text)}
+                        keyboardType='numeric'
+                        inputMode='numeric'
+                    />
+                </View>
+                {
+                    person > 4 && <Text style={{
+                        fontFamily: 'TitilliumWeb-Regular',
+                        fontSize: 14,
+                        color: 'red',
+                        marginTop: 10,
+                        marginHorizontal: 20,
+                    }}>
+                        Max 4 Person
+                    </Text>
+                }
+                <TouchableOpacity
+                    style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: 'auto',
+                        height: 50,
+                        backgroundColor: person <= 4 && person > 0 ? colors.sekunder : 'grey',
+                        marginVertical: 20,
+                        marginHorizontal: 20,
+                        borderRadius: 20,
+                    }}
+                    onPress={handleButton}
+                >
+                    <Text
+                        style={{
+                            fontFamily: 'TitilliumWeb-Bold',
+                            fontSize: 20,
+                            color: '#FEFEFE'
+                        }}>
+                        Booking
+                    </Text>
+                </TouchableOpacity>
+            </ActionSheet>
         </View>
     )
 }
@@ -120,5 +192,22 @@ const styles = StyleSheet.create({
         backgroundColor: colors.sekunder,
         marginTop: -480,
         borderRadius: 20,
+    }
+})
+
+const textInput = StyleSheet.create({
+    container: {
+        borderStyle: "dotted",
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 10,
+        marginHorizontal: 20,
+        borderColor: '#000000',
+    },
+    input: {
+        fontSize: 16,
+        fontFamily: 'TitilliumWeb-Regular',
+        color: '#000000',
+        padding: 0,
     }
 })

@@ -71,6 +71,7 @@ const SearchScreen = () => {
                         placeholderTextColor="#565e56"
                         value={search}
                         onChangeText={text => setSearch(text)}
+                        
                     />
                     {search ?
                         <TouchableOpacity onPress={() => clearTextInput()}>

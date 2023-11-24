@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import colors from '../theme/colors';
-import { DetailTrip, FavoriteScreen, HomeScreen, MyProfile, ProfileScreen, SearchScreen, Settings, ThemeScreen } from '../screens';
+import { DetailTrip, FavoriteScreen, FormBooking, HomeScreen, MyProfile, ProfileScreen, SearchScreen, Settings, ThemeScreen } from '../screens';
 import { Heart, Home2, ProfileCircle, SearchNormal } from 'iconsax-react-native';
 import ThemeContext from '../context/GlobalStateProvider';
 const Tab = createBottomTabNavigator();
@@ -94,7 +94,7 @@ function MainApp() {
 
 const Router = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName='MainApp'>
             <Stack.Screen
                 name="MainApp"
                 component={MainApp}
@@ -135,7 +135,8 @@ const Router = () => {
                     gestureDirection: 'horizontal',
                     ...TransitionPresets.ModalSlideFromBottomIOS,
                 }}
-            /><Stack.Screen
+            />
+            <Stack.Screen
                 name="ThemeScreen"
                 component={ThemeScreen}
                 options={{
@@ -145,6 +146,18 @@ const Router = () => {
                     gestureEnabled: true,
                     gestureDirection: 'horizontal',
                     ...TransitionPresets.SlideFromRightIOS,
+                }}
+            />
+            <Stack.Screen
+                name="FormBooking"
+                component={FormBooking}
+                options={{
+                    headerShown: false,
+                    animationEnabled: true,
+                    animationTypeForReplace: 'pop',
+                    gestureEnabled: true,
+                    gestureDirection: 'horizontal',
+                    ...TransitionPresets.ModalSlideFromBottomIOS,
                 }}
             />
         </Stack.Navigator>
