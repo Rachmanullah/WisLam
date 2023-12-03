@@ -37,7 +37,7 @@ const ProfileScreen = () => {
                         <Text style={styles.titleItem}>Favorite</Text>
                         <ArrowSquareRight size="25" color="#697689" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.itemContent}>
+                    <TouchableOpacity style={styles.itemContent} onPress={() => navigation.navigate('MyTrips')}>
                         <LocationTick size={25} color='#697689' />
                         <Text style={styles.titleItem}>My Trips</Text>
                         <ArrowSquareRight size="25" color="#697689" />

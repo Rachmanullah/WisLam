@@ -1,12 +1,13 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, } from 'react-native'
-import React, { useState, useContext } from 'react'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, ActivityIndicator } from 'react-native'
+import React, { useState, useContext, useCallback } from 'react'
 import { SearchNormal, DocumentFilter, FolderMinus, CloseCircle } from 'iconsax-react-native'
 import { PopularList } from '../../component';
-import { DataWisata } from '../../../data';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useGlobalDispatch, useGlobalState } from '../../context/GlobalStateProvider';
 import colors from '../../theme/colors';
 import ThemeContext from '../../context/GlobalStateProvider';
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 const SearchScreen = () => {
     const dispatch = useGlobalDispatch();
@@ -16,8 +17,28 @@ const SearchScreen = () => {
     const [isFavorites, setIsFavorites] = useState([]);
     const [showResult, setShowResult] = useState(false);
     const theme = useContext(ThemeContext)
+    const [DataWisata, setDataWisata] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const getData = async () => {
+        try {
+            const response = await axios.get(
+                'https://6560930983aba11d99d11c99.mockapi.io/wislamapp/tour_destination',
+            );
+            setDataWisata(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            getData();
+        }, [])
+    );
 
     const onPressSearch = async () => {
+        setLoading(true);
         const flattenedData = await getFavorites();
         const filteredData = DataWisata.filter(item => {
             const itemName = item.name.toLowerCase()
@@ -28,6 +49,7 @@ const SearchScreen = () => {
         const updatedFavorites = flattenedData.filter(id => filteredData.some(item => item.id === id));
         setIsFavorites(updatedFavorites)
         setResult(filteredData)
+        setLoading(false);
         setShowResult(true)
     }
 
@@ -71,7 +93,7 @@ const SearchScreen = () => {
                         placeholderTextColor="#565e56"
                         value={search}
                         onChangeText={text => setSearch(text)}
-                        
+
                     />
                     {search ?
                         <TouchableOpacity onPress={() => clearTextInput()}>
@@ -95,35 +117,41 @@ const SearchScreen = () => {
             <ScrollView style={{ marginHorizontal: 10 }}>
                 <Text style={{ fontFamily: 'Inter-Bold', fontSize: 18, color: theme.textColor, marginBottom: 10, marginLeft: 10 }}>search result</Text>
                 {
-                    <View style={{ gap: 15, paddingBottom: 20 }}>
-                        {
-                            result.length > 0 ?
-                                result.map((item, index) => {
-                                    const isItemLoved = isFavorites.includes(item.id);
-                                    const variant = isItemLoved ? 'Bold' : 'Linear';
-                                    return (
-                                        <PopularList
-                                            data={item}
-                                            key={index}
-                                            variant={variant}
-                                            onPress={() => {
-                                                toggleLoved(item.id)
-                                            }} />
-                                    )
-                                }) :
-                                showResult ?
-                                    <View View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '50%' }}>
-                                        <FolderMinus size="100" color={colors.sekunder} />
-                                        <Text style={{
-                                            fontFamily: 'TitilliumWeb-Regular',
-                                            fontSize: 18,
-                                            color: colors.sekunder,
-                                        }}>Tidak ada data Yang Ditemukan</Text>
-                                    </View>
-                                    :
-                                    ''
-                        }
-                    </View>
+                    loading ? (
+                        <View style={{ paddingVertical: '50%', gap: 10 }}>
+                            <ActivityIndicator size={'large'} color={colors.sekunder} />
+                        </View>
+                    ) : (
+                        <View style={{ gap: 15, paddingBottom: 20 }}>
+                            {
+                                result.length > 0 ?
+                                    result.map((item, index) => {
+                                        const isItemLoved = isFavorites.includes(item.id);
+                                        const variant = isItemLoved ? 'Bold' : 'Linear';
+                                        return (
+                                            <PopularList
+                                                data={item}
+                                                key={index}
+                                                variant={variant}
+                                                onPress={() => {
+                                                    toggleLoved(item.id)
+                                                }} />
+                                        )
+                                    }) :
+                                    showResult ?
+                                        <View View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '50%' }}>
+                                            <FolderMinus size="100" color={colors.sekunder} />
+                                            <Text style={{
+                                                fontFamily: 'TitilliumWeb-Regular',
+                                                fontSize: 18,
+                                                color: colors.sekunder,
+                                            }}>Tidak ada data Yang Ditemukan</Text>
+                                        </View>
+                                        :
+                                        ''
+                            }
+                        </View>
+                    )
                 }
             </ScrollView>
         </View>

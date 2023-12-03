@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import colors from '../theme/colors';
-import { DetailTrip, FavoriteScreen, FormBooking, HomeScreen, MyProfile, ProfileScreen, SearchScreen, Settings, ThemeScreen } from '../screens';
+import { DetailMyTrips, DetailTrip, EditDataBooking, FavoriteScreen, FormBooking, HomeScreen, MyProfile, MyTrips, ProfileScreen, SearchScreen, Settings, ThemeScreen } from '../screens';
 import { Heart, Home2, ProfileCircle, SearchNormal } from 'iconsax-react-native';
 import ThemeContext from '../context/GlobalStateProvider';
 const Tab = createBottomTabNavigator();
@@ -158,6 +158,42 @@ const Router = () => {
                     gestureEnabled: true,
                     gestureDirection: 'horizontal',
                     ...TransitionPresets.ModalSlideFromBottomIOS,
+                }}
+            />
+            <Stack.Screen
+                name="MyTrips"
+                component={MyTrips}
+                options={{
+                    headerShown: false,
+                    animationEnabled: true,
+                    animationTypeForReplace: 'pop',
+                    gestureEnabled: true,
+                    gestureDirection: 'horizontal',
+                    ...TransitionPresets.ModalSlideFromBottomIOS,
+                }}
+            />
+            <Stack.Screen
+                name="DetailMyTrips"
+                component={DetailMyTrips}
+                options={{
+                    headerShown: false,
+                    animationEnabled: true,
+                    animationTypeForReplace: 'pop',
+                    gestureEnabled: true,
+                    gestureDirection: 'horizontal',
+                    ...TransitionPresets.SlideFromRightIOS,
+                }}
+            />
+            <Stack.Screen
+                name="EditDataBooking"
+                component={EditDataBooking}
+                options={{
+                    headerShown: false,
+                    animationEnabled: true,
+                    animationTypeForReplace: 'pop',
+                    gestureEnabled: true,
+                    gestureDirection: 'horizontal',
+                    ...TransitionPresets.SlideFromRightIOS,
                 }}
             />
         </Stack.Navigator>

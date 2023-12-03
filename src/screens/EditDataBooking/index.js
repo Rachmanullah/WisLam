@@ -7,46 +7,69 @@ import { ArrowLeft } from 'iconsax-react-native';
 import DatePicker from 'react-native-date-picker';
 import axios from 'axios';
 
-const FormBooking = ({ route }) => {
-    const { dataId, person } = route.params;
+const EditDataBooking = ({ route }) => {
+    const { dataId, destinationId } = route.params;
     const navigation = useNavigation();
     const theme = useContext(ThemeContext)
-    const [selectedData, setSelectedData] = useState(null);
+    const [selectedData, setSelectedData] = useState({
+        id: 0,
+        id_destination: 0,
+        person: {},
+        date: "",
+    });
+    const [selectedDataTour, setSelectedDataTour] = useState(null);
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(true);
 
+    const onChange = (selectedDate) => {
+        const currentDate = selectedDate;
+        setOpen(false);
+        setDate(currentDate);
+    };
+
     const getdataById = async () => {
         try {
             const response = await axios.get(
-                `https://6560930983aba11d99d11c99.mockapi.io/wislamapp/tour_destination/${dataId}`,
+                `https://6560930983aba11d99d11c99.mockapi.io/wislamapp/booking/${dataId}`,
             );
-            setSelectedData(response.data);
+            setSelectedData({
+                id: response.data.id,
+                id_destination: response.data.id_destination,
+                person: response.data.person,
+                date: response.data.date,
+            });
+            const apiDate = new Date(response.data.date);
+            setDate(apiDate)
             setLoading(false);
         } catch (error) {
             console.error(error);
         }
     };
 
-    const [newBooking, setNewBooking] = useState({
-        id_destination: 0,
-        person: {},
-        date: "",
-    })
-    const [newPerson, SetNewPerson] = useState([{
-        name: "",
-        id_number: "",
-        telp: "",
-    }])
+    useEffect(() => {
+        console.log(selectedData)
+    }, [selectedData])
+
+    const getDestinationById = async () => {
+        try {
+            const response = await axios.get(
+                `https://6560930983aba11d99d11c99.mockapi.io/wislamapp/tour_destination/${destinationId}`,
+            );
+            setSelectedDataTour(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const handleUpload = async () => {
         setLoading(true);
         try {
-            await axios.post('https://6560930983aba11d99d11c99.mockapi.io/wislamapp/booking', {
-                id_destination: newBooking.id_destination,
-                person: newBooking.person,
-                date: newBooking.date,
-                createdAt: new Date(),
+            await axios.put(`https://6560930983aba11d99d11c99.mockapi.io/wislamapp/booking/${dataId}`, {
+                id_destination: selectedData.id_destination,
+                person: selectedData.person,
+                date: date ? date : selectedData.date,
             })
                 .then(function (response) {
                     console.log(response);
@@ -55,73 +78,70 @@ const FormBooking = ({ route }) => {
                     console.log(error);
                 });
             setLoading(false);
-            navigation.navigate('MainApp');
+            navigation.navigate('MyTrips');
         } catch (e) {
             console.log(e);
         }
     };
 
-    const handleInput = (personIndex, key, value) => {
-        const updatedPerson = [...newPerson];
-        updatedPerson[personIndex - 1] = {
-            ...updatedPerson[personIndex - 1],
+    const handleEditPerson = (personIndex, key, value) => {
+        const updatedPerson = [...selectedData.person];
+        updatedPerson[personIndex] = {
+            ...selectedData.person[personIndex],
             [key]: value,
         };
-        SetNewPerson(updatedPerson);
-        setNewBooking({
-            id_destination: dataId,
+        setSelectedData({
+            ...selectedData,
             person: updatedPerson,
-            date: date,
-        })
-    }
-
-    const onChange = (selectedDate) => {
-        const currentDate = selectedDate;
-        setOpen(false);
-        setDate(currentDate);
+        });
     };
 
     useFocusEffect(
         useCallback(() => {
+            getDestinationById();
             getdataById();
         }, [])
     );
 
     const renderInputComponent = () => {
         const inputComponents = [];
-        for (let i = 1; i <= person; i++) {
-            inputComponents.push(
-                <View style={[BoxTextInput.container, { backgroundColor: theme.theme === 'dark' ? '#000000' : '#FEFEFE' }]} key={i}>
-                    <Text style={[BoxTextInput.label, { color: theme.textColor }]}>Person-{i}</Text>
-                    <View style={BoxTextInput.box}>
-                        <TextInput
-                            style={[BoxTextInput.input, { color: theme.textColor }]}
-                            placeholder='Name'
-                            placeholderTextColor={theme.theme === 'dark' ? '#FEFEFE' : '#565e56'}
-                            onChangeText={(text) => handleInput(i, "name", text)}
-                        />
+        selectedData?.person.length > 0 &&
+            selectedData?.person.map((item, index) => {
+                inputComponents.push(
+                    <View style={[BoxTextInput.container, { backgroundColor: theme.theme === 'dark' ? '#000000' : '#FEFEFE' }]} key={index}>
+                        <Text style={[BoxTextInput.label, { color: theme.textColor }]}>Person-{index + 1}</Text>
+                        <View style={BoxTextInput.box}>
+                            <TextInput
+                                style={[BoxTextInput.input, { color: theme.textColor }]}
+                                placeholder='Name'
+                                value={item.name}
+                                placeholderTextColor={theme.theme === 'dark' ? '#FEFEFE' : '#565e56'}
+                                onChangeText={(text) => handleEditPerson(index, "name", text)}
+                            />
+                        </View>
+                        <View style={BoxTextInput.box}>
+                            <TextInput
+                                style={[BoxTextInput.input, { color: theme.textColor }]}
+                                placeholder='ID_Number'
+                                placeholderTextColor={theme.theme === 'dark' ? '#FEFEFE' : '#565e56'}
+                                keyboardType='numeric'
+                                value={item.id_number}
+                                onChangeText={(text) => handleEditPerson(index, "id_number", text)}
+                            />
+                        </View>
+                        <View style={BoxTextInput.box}>
+                            <TextInput
+                                style={[BoxTextInput.input, { color: theme.textColor }]}
+                                placeholder='Telp'
+                                placeholderTextColor={theme.theme === 'dark' ? '#FEFEFE' : '#565e56'}
+                                keyboardType='numeric'
+                                value={item.telp}
+                                onChangeText={(text) => handleEditPerson(index, "telp", text)}
+                            />
+                        </View>
                     </View>
-                    <View style={BoxTextInput.box}>
-                        <TextInput
-                            style={[BoxTextInput.input, { color: theme.textColor }]}
-                            placeholder='ID_Number'
-                            placeholderTextColor={theme.theme === 'dark' ? '#FEFEFE' : '#565e56'}
-                            keyboardType='numeric'
-                            onChangeText={(text) => handleInput(i, "id_number", text)}
-                        />
-                    </View>
-                    <View style={BoxTextInput.box}>
-                        <TextInput
-                            style={[BoxTextInput.input, { color: theme.textColor }]}
-                            placeholder='Telp'
-                            placeholderTextColor={theme.theme === 'dark' ? '#FEFEFE' : '#565e56'}
-                            keyboardType='numeric'
-                            onChangeText={(text) => handleInput(i, "telp", text)}
-                        />
-                    </View>
-                </View>
-            );
-        }
+                );
+            })
         return inputComponents;
     }
 
@@ -145,7 +165,7 @@ const FormBooking = ({ route }) => {
             </View>
             <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>
                 <View style={[cardInfo.container, { backgroundColor: theme.theme === 'dark' ? '#000000' : '#FEFEFE' }]}>
-                    <Text style={[cardInfo.label, { color: theme.textColor }]}>Destination : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>{selectedData?.name}</Text></Text>
+                    <Text style={[cardInfo.label, { color: theme.textColor }]}>Destination : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>{selectedDataTour?.name}</Text></Text>
                     <Text style={[cardInfo.label, { color: theme.textColor }]}>Price Ticket : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>Rp. 150.000 / Person</Text></Text>
                     <Text style={[cardInfo.label, { color: theme.textColor }]}>Total Price   : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>Rp. 150.000</Text></Text>
                 </View>
@@ -184,7 +204,7 @@ const FormBooking = ({ route }) => {
     )
 }
 
-export default FormBooking
+export default EditDataBooking
 
 const styles = StyleSheet.create({
     container: {

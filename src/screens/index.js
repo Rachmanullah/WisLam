@@ -7,6 +7,10 @@ import MyProfile from "./Profile/MyProfile";
 import Settings from "./Settings";
 import ThemeScreen from "./Theme";
 import FormBooking from "./FormBooking";
+import MyTrips from "./MyTrips";
+import DetailMyTrips from "./MyTrips/Detail";
+import EditDataBooking from "./EditDataBooking";
+
 export {
     HomeScreen,
     FavoriteScreen,
@@ -17,4 +21,7 @@ export {
     Settings,
     ThemeScreen,
     FormBooking,
+    MyTrips,
+    DetailMyTrips,
+    EditDataBooking,
 }

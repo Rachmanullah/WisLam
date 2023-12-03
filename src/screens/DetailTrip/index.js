@@ -1,19 +1,38 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native'
-import React, { useContext, useState, useRef } from 'react'
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, TextInput, ActivityIndicator } from 'react-native'
+import React, { useContext, useState, useRef, useEffect } from 'react'
 import { ArrowLeft, Location, Star1, } from 'iconsax-react-native'
 import colors from '../../theme/colors'
 import { DataWisata } from '../../../data'
 import { useNavigation } from '@react-navigation/native'
 import ThemeContext from '../../context/GlobalStateProvider'
 import ActionSheet from 'react-native-actions-sheet';
+import axios from 'axios';
 
 const DetailTrip = ({ route }) => {
     const { dataId } = route.params;
-    const selectedData = DataWisata.find(data => data.id === dataId);
+    const [selectedData, setSelectedData] = useState(null);
+    // const selectedData = DataWisata.find(data => data.id === dataId);
     const navigation = useNavigation();
     const [person, setPerson] = useState(0);
     const theme = useContext(ThemeContext)
     const actionSheetRef = useRef(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        getdataById();
+    }, [dataId]);
+
+    const getdataById = async () => {
+        try {
+            const response = await axios.get(
+                `https://6560930983aba11d99d11c99.mockapi.io/wislamapp/tour_destination/${dataId}`,
+            );
+            setSelectedData(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const openActionSheet = () => {
         actionSheetRef.current?.show();
@@ -44,30 +63,40 @@ const DetailTrip = ({ route }) => {
                     />
                 </TouchableOpacity>
             </View>
-            <Image source={{ uri: selectedData.image }} style={styles.itemImages} />
-            <View style={[styles.content, { backgroundColor: theme.backgroundColor }]} >
-                <Text style={[styles.title, { color: theme.textColor }]}>{selectedData.name}</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 10 }}>
-                    <Location size={20} color={colors.sekunder} variant='Bold' />
-                    <Text style={[styles.location, { color: theme.textColor }]}>{selectedData.destination}</Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 10 }}>
-                    <Text style={[styles.rating, { color: theme.textColor }]}>{selectedData.rating}</Text>
-                    <Star1 variant='Bold' size={20} color={theme.theme === 'dark' ? '#FEFEFE' : colors.sekunder} />
-                </View>
-                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
-                    paddingBottom: 500,
-                }}>
-                    <Text style={[styles.descrition, { color: theme.textColor }]}>
-                        {selectedData.description}
-                    </Text>
-                </ScrollView>
-                <TouchableOpacity style={styles.button} onPress={openActionSheet}>
-                    <Text style={{ fontFamily: 'TitilliumWeb-Bold', fontSize: 20, color: '#FEFEFE' }}>
-                        Booking
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            {
+                loading ? (
+                    <View style={{ paddingVertical: '50%', gap: 10 }}>
+                        <ActivityIndicator size={'large'} color={colors.sekunder} />
+                    </View>
+                ) : (
+                    <View>
+                        <Image source={{ uri: selectedData?.image }} style={styles.itemImages} />
+                        <View style={[styles.content, { backgroundColor: theme.backgroundColor }]} >
+                            <Text style={[styles.title, { color: theme.textColor }]}>{selectedData?.name}</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 10 }}>
+                                <Location size={20} color={colors.sekunder} variant='Bold' />
+                                <Text style={[styles.location, { color: theme.textColor }]}>{selectedData?.destination}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 10 }}>
+                                <Text style={[styles.rating, { color: theme.textColor }]}>{selectedData?.rating}</Text>
+                                <Star1 variant='Bold' size={20} color={theme.theme === 'dark' ? '#FEFEFE' : colors.sekunder} />
+                            </View>
+                            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
+                                paddingBottom: 500,
+                            }}>
+                                <Text style={[styles.descrition, { color: theme.textColor }]}>
+                                    {selectedData?.description}
+                                </Text>
+                            </ScrollView>
+                            <TouchableOpacity style={styles.button} onPress={openActionSheet}>
+                                <Text style={{ fontFamily: 'TitilliumWeb-Bold', fontSize: 20, color: '#FEFEFE' }}>
+                                    Booking
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                )
+            }
             <ActionSheet
                 ref={actionSheetRef}
                 containerStyle={{

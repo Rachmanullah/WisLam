@@ -6,15 +6,19 @@ import {
     TextInput,
     TouchableOpacity,
     FlatList,
+    ActivityIndicator,
 } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { SearchNormal, Sun1 } from 'iconsax-react-native';
 import colors from '../../theme/colors';
 import { CategoryList, PopularList, RecommendList, TravelStoriesList } from '../../component';
-import { DataCategoryList, DataStories, DataWisata } from '../../../data';
+import { DataCategoryList, DataStories } from '../../../data';
 import ThemeContext, { useGlobalDispatch, useGlobalState } from '../../context/GlobalStateProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { EventRegister } from 'react-native-event-listeners';
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+
 const SearchComponent = () => {
     return (
         <View style={SearchStyle.container}>
@@ -54,7 +58,6 @@ const RenderCategoryList = ({ selectedCategory, setSelectedCategory }) => {
             contentContainerStyle={{ gap: 10, paddingVertical: 10 }}
             horizontal
             showsHorizontalScrollIndicator={false}
-
         />
     )
 }
@@ -197,10 +200,31 @@ const RenderTravelStories = () => {
 }
 const HomeScreen = () => {
     const [selectedCategory, setSelectedCategory] = useState(null)
+    const [loading, setLoading] = useState(true);
     const [DataRecommend, setDataRecommend] = useState([])
     const [DataPopular, setDataPopular] = useState([])
     const [mode, SetMode] = useState(false)
     const theme = useContext(ThemeContext)
+    const [DataWisata, setDataWisata] = useState([]);
+
+    const getData = async () => {
+        try {
+            const response = await axios.get(
+                'https://6560930983aba11d99d11c99.mockapi.io/wislamapp/tour_destination',
+            );
+            setDataWisata(response.data);
+            setLoading(false)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            getData();
+        }, [])
+    );
+
     useEffect(() => {
         const DataAcak = DataWisata.sort(() => Math.random());
         if (selectedCategory) {
@@ -212,9 +236,7 @@ const HomeScreen = () => {
             setDataPopular(DataAcak.slice(5, 10))
         }
     }, [DataWisata, selectedCategory])
-    // useEffect(() => {
-    //     console.log(theme)
-    // }, [])
+
     return (
         <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
             <View style={[styles.topBars, { backgroundColor: theme.theme === 'dark' ? colors.sekunder : '#FEFEFE' }]}>
@@ -231,76 +253,84 @@ const HomeScreen = () => {
                     <Sun1 size="35" color={theme.theme === 'dark' ? '#FEFEFE' : '#555555'} variant="Bold" />
                 </TouchableOpacity>
             </View>
-            <ScrollView style={{ margin: 10, gap: 10 }} showsVerticalScrollIndicator={false}>
-                <Text style={[styles.label, { color: theme.textColor }]}>Wonderful Indonesia</Text>
-                <Text style={[styles.label, { color: theme.textColor }]}>Let’s Explore Together </Text>
-                <SearchComponent />
-                <RenderCategoryList selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-                <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center' }}>
-                    <Text
-                        style={{
-                            fontFamily: 'DavidLibre-Bold',
-                            color: theme.textColor,
-                            fontSize: 20,
-                            paddingVertical: 10,
-                        }}>
-                        Recommend
-                    </Text>
-                </View>
-                <RenderRecommend dataRender={DataRecommend} />
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'baseline',
-                    }}>
-                    <Text
-                        style={{
-                            fontFamily: 'DavidLibre-Bold',
-                            color: theme.textColor,
-                            fontSize: 20,
-                            paddingVertical: 10,
-                        }}>
-                        Travel Story
-                    </Text>
-                    <Text
-                        style={{
-                            fontFamily: 'DavidLibre-Bold',
-                            color: colors.sekunder,
-                            fontSize: 16,
-                            paddingVertical: 10,
-                        }}>
-                        View All
-                    </Text>
-                </View>
-                <RenderTravelStories />
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'baseline',
-                    }}>
-                    <Text
-                        style={{
-                            fontFamily: 'DavidLibre-Bold',
-                            color: theme.textColor,
-                            fontSize: 20,
-                            paddingVertical: 10,
-                        }}>
-                        Popular
-                    </Text>
-                    <Text
-                        style={{
-                            fontFamily: 'DavidLibre-Bold',
-                            color: colors.sekunder,
-                            fontSize: 16,
-                            paddingVertical: 10,
-                        }}>
-                        View All
-                    </Text>
-                </View>
-                <RenderPopular dataRender={DataPopular} />
-            </ScrollView>
+            {
+                loading ? (
+                    <View style={{ paddingVertical: '50%', gap: 10 }}>
+                        <ActivityIndicator size={'large'} color={colors.sekunder} />
+                    </View>
+                ) : (
+                    <ScrollView style={{ margin: 10, gap: 10 }} showsVerticalScrollIndicator={false}>
+                        <Text style={[styles.label, { color: theme.textColor }]}>Wonderful Indonesia</Text>
+                        <Text style={[styles.label, { color: theme.textColor }]}>Let’s Explore Together </Text>
+                        <SearchComponent />
+                        <RenderCategoryList selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+                        <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center' }}>
+                            <Text
+                                style={{
+                                    fontFamily: 'DavidLibre-Bold',
+                                    color: theme.textColor,
+                                    fontSize: 20,
+                                    paddingVertical: 10,
+                                }}>
+                                Recommend
+                            </Text>
+                        </View>
+                        <RenderRecommend dataRender={DataRecommend} />
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'baseline',
+                            }}>
+                            <Text
+                                style={{
+                                    fontFamily: 'DavidLibre-Bold',
+                                    color: theme.textColor,
+                                    fontSize: 20,
+                                    paddingVertical: 10,
+                                }}>
+                                Travel Story
+                            </Text>
+                            <Text
+                                style={{
+                                    fontFamily: 'DavidLibre-Bold',
+                                    color: colors.sekunder,
+                                    fontSize: 16,
+                                    paddingVertical: 10,
+                                }}>
+                                View All
+                            </Text>
+                        </View>
+                        <RenderTravelStories />
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'baseline',
+                            }}>
+                            <Text
+                                style={{
+                                    fontFamily: 'DavidLibre-Bold',
+                                    color: theme.textColor,
+                                    fontSize: 20,
+                                    paddingVertical: 10,
+                                }}>
+                                Popular
+                            </Text>
+                            <Text
+                                style={{
+                                    fontFamily: 'DavidLibre-Bold',
+                                    color: colors.sekunder,
+                                    fontSize: 16,
+                                    paddingVertical: 10,
+                                }}>
+                                View All
+                            </Text>
+                        </View>
+                        <RenderPopular dataRender={DataPopular} />
+                    </ScrollView>
+                )
+            }
         </View>
     );
 };
