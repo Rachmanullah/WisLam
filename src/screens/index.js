@@ -10,6 +10,7 @@ import FormBooking from "./FormBooking";
 import MyTrips from "./MyTrips";
 import DetailMyTrips from "./MyTrips/Detail";
 import EditDataBooking from "./EditDataBooking";
+import ConfirmScreen from "./ConfirmScreen";
 
 export {
     HomeScreen,
@@ -24,4 +25,5 @@ export {
     MyTrips,
     DetailMyTrips,
     EditDataBooking,
+    ConfirmScreen,
 }

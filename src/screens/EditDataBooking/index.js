@@ -6,6 +6,7 @@ import ThemeContext from '../../context/GlobalStateProvider';
 import { ArrowLeft } from 'iconsax-react-native';
 import DatePicker from 'react-native-date-picker';
 import axios from 'axios';
+import firestore from '@react-native-firebase/firestore';
 
 const EditDataBooking = ({ route }) => {
     const { dataId, destinationId } = route.params;
@@ -28,28 +29,36 @@ const EditDataBooking = ({ route }) => {
         setDate(currentDate);
     };
 
-    const getdataById = async () => {
-        try {
-            const response = await axios.get(
-                `https://6560930983aba11d99d11c99.mockapi.io/wislamapp/booking/${dataId}`,
-            );
-            setSelectedData({
-                id: response.data.id,
-                id_destination: response.data.id_destination,
-                person: response.data.person,
-                date: response.data.date,
-            });
-            const apiDate = new Date(response.data.date);
-            setDate(apiDate)
-            setLoading(false);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     useEffect(() => {
-        console.log(selectedData)
-    }, [selectedData])
+        const subscriber = firestore()
+            .collection('booking')
+            .doc(dataId)
+            .onSnapshot(documentSnapshot => {
+                const getData = documentSnapshot.data();
+                if (getData) {
+                    console.log('get data: ', getData);
+                    setSelectedData({
+                        id: getData.id,
+                        id_destination: getData.id_destination,
+                        person: getData.person,
+                        date: getData.date,
+                    });
+                    const apiDate = new Date(getData.date.seconds * 1000 + getData.date.nanoseconds / 1000000);
+                    console.log("date konvers: ",apiDate);
+                    console.log("real: ",getData.date)
+                    setDate(apiDate)
+                    console.log("date: ", date);
+                } else {
+                    console.log(`Blog with ID ${dataId} not found.`);
+                }
+            });
+        setLoading(false);
+        return () => subscriber();
+    }, [dataId]);
+
+    // useEffect(() => {
+    //     console.log(selectedData)
+    // }, [selectedData])
 
     const getDestinationById = async () => {
         try {
@@ -66,17 +75,12 @@ const EditDataBooking = ({ route }) => {
     const handleUpload = async () => {
         setLoading(true);
         try {
-            await axios.put(`https://6560930983aba11d99d11c99.mockapi.io/wislamapp/booking/${dataId}`, {
+            await firestore().collection('booking').doc(dataId).update({
                 id_destination: selectedData.id_destination,
                 person: selectedData.person,
                 date: date ? date : selectedData.date,
-            })
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+            });
+            console.log('Data Updated!');
             setLoading(false);
             navigation.navigate('MyTrips');
         } catch (e) {
@@ -99,7 +103,6 @@ const EditDataBooking = ({ route }) => {
     useFocusEffect(
         useCallback(() => {
             getDestinationById();
-            getdataById();
         }, [])
     );
 

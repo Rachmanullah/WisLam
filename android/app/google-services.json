@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "836383046688",
+    "project_id": "wislam-fcfee",
+    "storage_bucket": "wislam-fcfee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836383046688:android:1687c2626559339f995045",
+        "android_client_info": {
+          "package_name": "com.wislam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbLVEsNef_7lXRfT9XDqZrEESPjPyTo04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

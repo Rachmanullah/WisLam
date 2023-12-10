@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native'
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useState, useEffect } from 'react'
 import colors from '../../theme/colors'
 import ThemeContext from '../../context/GlobalStateProvider';
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
-import { ArrowLeft } from 'iconsax-react-native';
+import { ArrowLeft, FolderMinus } from 'iconsax-react-native';
 import { CardTrips } from '../../component';
+import firestore from '@react-native-firebase/firestore';
 import axios from 'axios';
 
 const MyTrips = () => {
@@ -12,29 +13,27 @@ const MyTrips = () => {
     const theme = useContext(ThemeContext)
     const [loading, setLoading] = useState(true);
     const [dataTrips, setDataTrips] = useState([])
-
-    const getData = async () => {
-        try {
-            const response = await axios.get(
-                'https://6560930983aba11d99d11c99.mockapi.io/wislamapp/booking',
-            );
-            setDataTrips(response.data);
-            setLoading(false);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    useFocusEffect(
-        useCallback(() => {
-            getData();
-        }, [])
-    );
+    useEffect(() => {
+        const subscriber = firestore()
+            .collection('booking')
+            .onSnapshot(querySnapshot => {
+                const bookings = [];
+                querySnapshot.forEach(documentSnapshot => {
+                    bookings.push({
+                        ...documentSnapshot.data(),
+                        id: documentSnapshot.id,
+                    });
+                });
+                setDataTrips(bookings);
+                setLoading(false);
+            });
+        return () => subscriber();
+    }, []);
 
     return (
         <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                     <ArrowLeft
                         color='#FFFFFF'
                         variant="Linear"
@@ -55,7 +54,7 @@ const MyTrips = () => {
                         <View style={{ paddingVertical: '50%', gap: 10 }}>
                             <ActivityIndicator size={'large'} color={colors.sekunder} />
                         </View>
-                    ) : (
+                    ) : dataTrips.length > 0 ? (
                         dataTrips?.map((item, index) => {
                             return (
                                 <View key={index}>
@@ -66,6 +65,15 @@ const MyTrips = () => {
                                 </View>
                             )
                         })
+                    ) : (
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '50%' }}>
+                            <FolderMinus size="100" color={colors.sekunder} />
+                            <Text style={{
+                                fontFamily: 'TitilliumWeb-Regular',
+                                fontSize: 18,
+                                color: colors.sekunder,
+                            }}>Tidak ada data Booking</Text>
+                        </View>
                     )
                 }
             </ScrollView>

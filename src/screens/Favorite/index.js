@@ -53,7 +53,7 @@ const FavoriteScreen = () => {
             fetchData();
         }, [favorites, DataWisata, favoriteData])
     );
-    
+
     const toggleLoved = async (itemId) => {
         if (favoriteData.find(item => item.id === itemId)) {
             try {
@@ -120,7 +120,7 @@ const FavoriteScreen = () => {
                                         )
                                     }) :
                                     showResult ?
-                                        <View View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '50%' }}>
+                                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '50%' }}>
                                             <FolderMinus size="100" color={colors.sekunder} />
                                             <Text style={{
                                                 fontFamily: 'TitilliumWeb-Regular',

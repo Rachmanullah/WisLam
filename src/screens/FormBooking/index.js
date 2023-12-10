@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, Alert, } from 'react-native'
 import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import colors from '../../theme/colors';
@@ -6,6 +6,8 @@ import ThemeContext from '../../context/GlobalStateProvider';
 import { ArrowLeft } from 'iconsax-react-native';
 import DatePicker from 'react-native-date-picker';
 import axios from 'axios';
+import firestore from '@react-native-firebase/firestore';
+import NotifService from '../../../NotifService';
 
 const FormBooking = ({ route }) => {
     const { dataId, person } = route.params;
@@ -15,6 +17,18 @@ const FormBooking = ({ route }) => {
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(true);
+    const [registerToken, setRegisterToken] = useState("");
+    const [fcmRegistered, setfcmRegistered] = useState(false);
+
+    const onRegister = (token) => {
+        setRegisterToken(token.token)
+        setfcmRegistered(true);
+    }
+
+    const onNotif = (notif) => {
+        Alert.alert(notif.title, notif.message);
+    }
+    const notif = new NotifService(onRegister, onNotif);
 
     const getdataById = async () => {
         try {
@@ -42,22 +56,20 @@ const FormBooking = ({ route }) => {
     const handleUpload = async () => {
         setLoading(true);
         try {
-            await axios.post('https://6560930983aba11d99d11c99.mockapi.io/wislamapp/booking', {
+            await firestore().collection('booking').add({
                 id_destination: newBooking.id_destination,
                 person: newBooking.person,
                 date: newBooking.date,
                 createdAt: new Date(),
             })
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
             setLoading(false);
-            navigation.navigate('MainApp');
+            console.log('booking added!');
+            notif.localNotif('sample.mp3', 'Booking Succesful', 'Check Your Booking In App')
+            navigation.replace('ConfirmScreen', { status: 200 });
         } catch (e) {
             console.log(e);
+            navigation.replace('ConfirmScreen', { status: 400 });
+
         }
     };
 

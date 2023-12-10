@@ -1,6 +1,6 @@
 export const formatDate = createdAt => {
     if (createdAt) {
-        const createdAtDate = new Date(createdAt);
+        const createdAtDate = new Date(createdAt.seconds * 1000 + createdAt.nanoseconds / 1000000);
         const months = [
             'Januari',
             'Februari',

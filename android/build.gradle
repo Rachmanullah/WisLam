@@ -9,13 +9,20 @@ buildscript {
 
         // We use NDK 23 which has both M1 support and is the side-by-side NDK version from AGP.
         ndkVersion = "23.1.7779620"
+        googlePlayServicesVersion = "+" // default: "+"
+        firebaseMessagingVersion = "21.1.0" // default: "21.1.0"
     }
     repositories {
         google()
         mavenCentral()
+        // ADD THIS
+        maven { url 'https://maven.google.com' }
+        // ADD THIS
+        maven { url "https://www.jitpack.io" }
     }
     dependencies {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath 'com.google.gms:google-services:4.4.0'
     }
 }

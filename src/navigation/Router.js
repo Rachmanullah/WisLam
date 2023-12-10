@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import colors from '../theme/colors';
-import { DetailMyTrips, DetailTrip, EditDataBooking, FavoriteScreen, FormBooking, HomeScreen, MyProfile, MyTrips, ProfileScreen, SearchScreen, Settings, ThemeScreen } from '../screens';
+import { ConfirmScreen, DetailMyTrips, DetailTrip, EditDataBooking, FavoriteScreen, FormBooking, HomeScreen, MyProfile, MyTrips, ProfileScreen, SearchScreen, Settings, ThemeScreen } from '../screens';
 import { Heart, Home2, ProfileCircle, SearchNormal } from 'iconsax-react-native';
 import ThemeContext from '../context/GlobalStateProvider';
 const Tab = createBottomTabNavigator();
@@ -195,6 +195,11 @@ const Router = () => {
                     gestureDirection: 'horizontal',
                     ...TransitionPresets.SlideFromRightIOS,
                 }}
+            />
+            <Stack.Screen
+                name="ConfirmScreen"
+                component={ConfirmScreen}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     )

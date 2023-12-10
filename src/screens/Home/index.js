@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     FlatList,
     ActivityIndicator,
+    Alert,
 } from 'react-native';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { SearchNormal, Sun1 } from 'iconsax-react-native';
@@ -17,7 +18,8 @@ import ThemeContext, { useGlobalDispatch, useGlobalState } from '../../context/G
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { EventRegister } from 'react-native-event-listeners';
 import axios from 'axios';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
 
 const SearchComponent = () => {
     return (
@@ -206,6 +208,41 @@ const HomeScreen = () => {
     const [mode, SetMode] = useState(false)
     const theme = useContext(ThemeContext)
     const [DataWisata, setDataWisata] = useState([]);
+    const navigation = useNavigation();
+    // async function requestUserPermission() {
+    //     const authStatus = await messaging().requestPermission();
+    //     const enabled =
+    //         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    //         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    //     if (enabled) {
+    //         console.log('Authorization status:', authStatus);
+    //     }
+    // }
+
+    // async function getToken() {
+    //     const fcmToken = await messaging().getToken();
+    //     console.log(fcmToken);
+    // }
+    // useEffect(() => {
+    //     requestUserPermission();
+    //     getToken();
+
+    //     const unsubscribe = messaging().onMessage(async remoteMessage => {
+    //         Alert.alert('A new FCM message arrived!', remoteMessage.notification?.body);
+    //     });
+
+    //     messaging().onNotificationOpenedApp(remoteMessage => {
+    //         console.log(
+    //             'Notification caused app to open from background state:',
+    //             remoteMessage.notification,
+    //         );
+    //         navigation.navigate("MyTrips");
+    //     });
+
+
+    //     return unsubscribe;
+    // })
 
     const getData = async () => {
         try {

@@ -7,6 +7,7 @@ import colors from '../../../theme/colors';
 import ActionSheet from 'react-native-actions-sheet';
 import { ArrowLeft, More } from 'iconsax-react-native';
 import { ItemFavorit } from '../../../component';
+import firestore from '@react-native-firebase/firestore';
 import { formatDate } from '../../../utils/formatDate';
 
 const DetailMyTrips = ({ route }) => {
@@ -17,16 +18,22 @@ const DetailMyTrips = ({ route }) => {
     const [destination, setDestination] = useState([])
     const [loading, setLoading] = useState(true);
     const [dataTrips, setDataTrips] = useState([])
-    const getdataBookingById = async () => {
-        try {
-            const response = await axios.get(
-                `https://6560930983aba11d99d11c99.mockapi.io/wislamapp/booking/${dataId}`
-            );
-            setDataTrips(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    useEffect(() => {
+        const subscriber = firestore()
+            .collection('booking')
+            .doc(dataId)
+            .onSnapshot(documentSnapshot => {
+                const getData = documentSnapshot.data();
+                if (getData) {
+                    console.log('get data: ', getData);
+                    setDataTrips(getData);
+                } else {
+                    console.log(`Blog with ID ${dataId} not found.`);
+                }
+            });
+        // setLoading(false);
+        return () => subscriber();
+    }, [dataId]);
 
     const getdataById = async () => {
         try {
@@ -35,6 +42,7 @@ const DetailMyTrips = ({ route }) => {
             );
             setDestination(response.data);
             setLoading(false)
+            console.log(destination)
         } catch (error) {
             console.error(error);
         }
@@ -46,21 +54,29 @@ const DetailMyTrips = ({ route }) => {
     }
 
     const handleDelete = async () => {
-        await axios.delete(`https://6560930983aba11d99d11c99.mockapi.io/wislamapp/booking/${dataId}`)
-            .then(() => {
-                closeActionSheet()
-                navigation.navigate('MyTrips');
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        setLoading(true);
+        try {
+            await firestore()
+                .collection('booking')
+                .doc(dataId)
+                .delete()
+                .then(() => {
+                    console.log('Data Booking deleted!');
+                });
+            console.log('Data Booking deleted!');
+            closeActionSheet();
+            setDataTrips(null);
+            setLoading(false);
+            navigation.navigate('MyTrips');
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     useFocusEffect(
         useCallback(() => {
-            getdataBookingById();
             getdataById();
-        }, [])
+        }, [destinationId])
     );
 
     const openActionSheet = () => {
