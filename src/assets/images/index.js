@@ -10,7 +10,7 @@ import ImagesPuncakB29 from './puncak29.jpeg'
 import ImagesRanuKumbolo from './ranuKumbolo.jpeg'
 import ImagesSeruniPoint from './seruni-point.jpg'
 import ImagesPenanjakan from './penanjakan.jpeg'
-
+import ImagesSplash from './splash.png'
 export {
     MyIlustrasi,
     ImagesBromo,
@@ -24,4 +24,5 @@ export {
     ImagesRanuKumbolo,
     ImagesSeruniPoint,
     ImagesPenanjakan,
+    ImagesSplash,
 }

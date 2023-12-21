@@ -7,6 +7,8 @@ import { ArrowLeft } from 'iconsax-react-native';
 import DatePicker from 'react-native-date-picker';
 import axios from 'axios';
 import firestore from '@react-native-firebase/firestore';
+import { formatRupiah } from '../../utils/formatRupiah';
+import { countTotal } from '../../utils/countTotal';
 
 const EditDataBooking = ({ route }) => {
     const { dataId, destinationId } = route.params;
@@ -17,6 +19,7 @@ const EditDataBooking = ({ route }) => {
         id_destination: 0,
         person: {},
         date: "",
+        harga: 0,
     });
     const [selectedDataTour, setSelectedDataTour] = useState(null);
     const [date, setDate] = useState(new Date())
@@ -42,10 +45,11 @@ const EditDataBooking = ({ route }) => {
                         id_destination: getData.id_destination,
                         person: getData.person,
                         date: getData.date,
+                        harga: getData.harga
                     });
                     const apiDate = new Date(getData.date.seconds * 1000 + getData.date.nanoseconds / 1000000);
-                    console.log("date konvers: ",apiDate);
-                    console.log("real: ",getData.date)
+                    console.log("date konvers: ", apiDate);
+                    console.log("real: ", getData.date)
                     setDate(apiDate)
                     console.log("date: ", date);
                 } else {
@@ -79,6 +83,7 @@ const EditDataBooking = ({ route }) => {
                 id_destination: selectedData.id_destination,
                 person: selectedData.person,
                 date: date ? date : selectedData.date,
+                harga: selectedData.harga,
             });
             console.log('Data Updated!');
             setLoading(false);
@@ -169,8 +174,8 @@ const EditDataBooking = ({ route }) => {
             <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>
                 <View style={[cardInfo.container, { backgroundColor: theme.theme === 'dark' ? '#000000' : '#FEFEFE' }]}>
                     <Text style={[cardInfo.label, { color: theme.textColor }]}>Destination : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>{selectedDataTour?.name}</Text></Text>
-                    <Text style={[cardInfo.label, { color: theme.textColor }]}>Price Ticket : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>Rp. 150.000 / Person</Text></Text>
-                    <Text style={[cardInfo.label, { color: theme.textColor }]}>Total Price   : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>Rp. 150.000</Text></Text>
+                    <Text style={[cardInfo.label, { color: theme.textColor }]}>Price Ticket : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>{formatRupiah(selectedDataTour?.harga)} / Person</Text></Text>
+                    <Text style={[cardInfo.label, { color: theme.textColor }]}>Total Price   : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>{formatRupiah(selectedData?.harga)}</Text></Text>
                 </View>
                 <TouchableOpacity style={[styles.button, { backgroundColor: '#27C277', borderRadius: 10, }]} onPress={() => setOpen(true)}>
                     <Text style={{

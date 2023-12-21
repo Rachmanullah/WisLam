@@ -38,19 +38,21 @@ const SearchScreen = () => {
     );
 
     const onPressSearch = async () => {
-        setLoading(true);
-        const flattenedData = await getFavorites();
-        const filteredData = DataWisata.filter(item => {
-            const itemName = item.name.toLowerCase()
-            const itemCategory = item.category.toLowerCase()
-            const itemDestination = item.destination.toLowerCase()
-            return itemName.includes(search.toLowerCase()) || itemCategory.includes(search.toLowerCase()) || itemDestination.includes(search.toLowerCase());
-        });
-        const updatedFavorites = flattenedData.filter(id => filteredData.some(item => item.id === id));
-        setIsFavorites(updatedFavorites)
-        setResult(filteredData)
-        setLoading(false);
-        setShowResult(true)
+        if (search != '') {
+            setLoading(true);
+            const flattenedData = await getFavorites();
+            const filteredData = DataWisata.filter(item => {
+                const itemName = item.name.toLowerCase()
+                const itemCategory = item.category.toLowerCase()
+                const itemDestination = item.destination.toLowerCase()
+                return itemName.includes(search.toLowerCase()) || itemCategory.includes(search.toLowerCase()) || itemDestination.includes(search.toLowerCase());
+            });
+            const updatedFavorites = flattenedData.filter(id => filteredData.some(item => item.id === id));
+            setIsFavorites(updatedFavorites)
+            setResult(filteredData)
+            setLoading(false);
+            setShowResult(true)
+        }
     }
 
     const clearTextInput = () => {
@@ -97,7 +99,7 @@ const SearchScreen = () => {
                     />
                     {search ?
                         <TouchableOpacity onPress={() => clearTextInput()}>
-                            <CloseCircle size={23} color='#697689' />
+                            <CloseCircle size={23} color='#f67c00' />
                         </TouchableOpacity>
                         : ''
                     }
@@ -105,7 +107,7 @@ const SearchScreen = () => {
                 <TouchableOpacity
                     onPress={() => onPressSearch()}
                     style={{
-                        backgroundColor: '#ff8a65',
+                        backgroundColor: '#f67c00',
                         width: 50,
                         alignItems: 'center',
                         justifyContent: 'center'

@@ -2,11 +2,11 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, ActivityIndicator
 import React, { useCallback, useContext, useState, useEffect } from 'react'
 import colors from '../../theme/colors'
 import ThemeContext from '../../context/GlobalStateProvider';
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { ArrowLeft, FolderMinus } from 'iconsax-react-native';
 import { CardTrips } from '../../component';
 import firestore from '@react-native-firebase/firestore';
-import axios from 'axios';
+import auth from '@react-native-firebase/auth';
 
 const MyTrips = () => {
     const navigation = useNavigation();
@@ -14,20 +14,31 @@ const MyTrips = () => {
     const [loading, setLoading] = useState(true);
     const [dataTrips, setDataTrips] = useState([])
     useEffect(() => {
-        const subscriber = firestore()
-            .collection('booking')
-            .onSnapshot(querySnapshot => {
-                const bookings = [];
-                querySnapshot.forEach(documentSnapshot => {
-                    bookings.push({
-                        ...documentSnapshot.data(),
-                        id: documentSnapshot.id,
+        const user = auth().currentUser;
+        const fetchBookingData = () => {
+            try {
+                if (user) {
+                    const userId = user.uid;
+                    const bookingsCollection = firestore().collection('booking');
+                    const query = bookingsCollection.where('authorId', '==', userId);
+                    const unsubscribeBooking = query.onSnapshot(querySnapshot => {
+                        const bookings = querySnapshot.docs.map(doc => ({
+                            ...doc.data(),
+                            id: doc.id,
+                        }));
+                        setDataTrips(bookings);
+                        setLoading(false);
                     });
-                });
-                setDataTrips(bookings);
-                setLoading(false);
-            });
-        return () => subscriber();
+
+                    return () => {
+                        unsubscribeBooking();
+                    };
+                }
+            } catch (error) {
+                console.error('Error fetching Booking data:', error);
+            }
+        }
+        fetchBookingData();
     }, []);
 
     return (

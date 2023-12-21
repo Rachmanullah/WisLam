@@ -3,8 +3,8 @@ import React, { useContext } from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import colors from '../theme/colors';
-import { ConfirmScreen, DetailMyTrips, DetailTrip, EditDataBooking, FavoriteScreen, FormBooking, HomeScreen, MyProfile, MyTrips, ProfileScreen, SearchScreen, Settings, ThemeScreen } from '../screens';
-import { Heart, Home2, ProfileCircle, SearchNormal } from 'iconsax-react-native';
+import { AddStories, AllStories, AllTrips, ConfirmScreen, DetailMyTrips, DetailTrip, EditDataBooking, FavoriteScreen, FormBooking, HomeScreen, LoginScreen, MyProfile, MyTrips, ProfileScreen, RegisterScreen, SearchScreen, Settings, SplashScreen, StoriesScreen, ThemeScreen } from '../screens';
+import { AddSquare, Heart, Home2, ProfileCircle, SearchNormal } from 'iconsax-react-native';
 import ThemeContext from '../context/GlobalStateProvider';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -59,6 +59,21 @@ function MainApp() {
                 }}
             />
             <Tab.Screen
+                name="Stories"
+                component={AddStories}
+                options={{
+                    tabBarLabel: 'Stories',
+                    tabBarIcon: ({ focused, color }) => (
+                        <AddSquare
+                            color={color}
+                            variant={focused ? 'Bold' : 'Linear'}
+                            size={24}
+                        />
+                    ),
+                    headerShown: false,
+                }}
+            />
+            <Tab.Screen
                 name="Search"
                 component={SearchScreen}
                 options={{
@@ -94,7 +109,22 @@ function MainApp() {
 
 const Router = () => {
     return (
-        <Stack.Navigator initialRouteName='MainApp'>
+        <Stack.Navigator initialRouteName='SplashScreen'>
+            <Stack.Screen
+                name="SplashScreen"
+                component={SplashScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="LoginScreen"
+                component={LoginScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="RegisterScreen"
+                component={RegisterScreen}
+                options={{ headerShown: false }}
+            />
             <Stack.Screen
                 name="MainApp"
                 component={MainApp}
@@ -199,6 +229,21 @@ const Router = () => {
             <Stack.Screen
                 name="ConfirmScreen"
                 component={ConfirmScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="StoriesScreen"
+                component={StoriesScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="AllTrips"
+                component={AllTrips}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="AllStories"
+                component={AllStories}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>

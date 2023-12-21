@@ -11,7 +11,13 @@ import MyTrips from "./MyTrips";
 import DetailMyTrips from "./MyTrips/Detail";
 import EditDataBooking from "./EditDataBooking";
 import ConfirmScreen from "./ConfirmScreen";
-
+import SplashScreen from "./SplashScreen";
+import LoginScreen from "./LoginScreen";
+import RegisterScreen from "./RegisterScreen";
+import AddStories from "./AddStories";
+import StoriesScreen from "./StoriesScreen";
+import AllTrips from "./AllTrips";
+import AllStories from "./AllStories";
 export {
     HomeScreen,
     FavoriteScreen,
@@ -26,4 +32,11 @@ export {
     DetailMyTrips,
     EditDataBooking,
     ConfirmScreen,
+    SplashScreen,
+    LoginScreen,
+    RegisterScreen,
+    AddStories,
+    StoriesScreen,
+    AllTrips,
+    AllStories,
 }

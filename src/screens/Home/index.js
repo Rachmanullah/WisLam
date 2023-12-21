@@ -7,19 +7,18 @@ import {
     TouchableOpacity,
     FlatList,
     ActivityIndicator,
-    Alert,
 } from 'react-native';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { SearchNormal, Sun1 } from 'iconsax-react-native';
 import colors from '../../theme/colors';
 import { CategoryList, PopularList, RecommendList, TravelStoriesList } from '../../component';
-import { DataCategoryList, DataStories } from '../../../data';
+import { DataCategoryList } from '../../../data';
 import ThemeContext, { useGlobalDispatch, useGlobalState } from '../../context/GlobalStateProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { EventRegister } from 'react-native-event-listeners';
 import axios from 'axios';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import messaging from '@react-native-firebase/messaging';
+import firestore from '@react-native-firebase/firestore';
 
 const SearchComponent = () => {
     return (
@@ -181,7 +180,7 @@ const RenderPopular = ({ dataRender }) => {
     );
 }
 
-const RenderTravelStories = () => {
+const RenderTravelStories = ({ data }) => {
     const renderItem = ({ item }) => {
         return (
             <TravelStoriesList
@@ -191,7 +190,7 @@ const RenderTravelStories = () => {
     }
     return (
         <FlatList
-            data={DataStories}
+            data={data}
             keyExtractor={item => item.id}
             renderItem={item => renderItem({ ...item })}
             contentContainerStyle={{ gap: 10 }}
@@ -201,6 +200,7 @@ const RenderTravelStories = () => {
     )
 }
 const HomeScreen = () => {
+    const navigation = useNavigation();
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [loading, setLoading] = useState(true);
     const [DataRecommend, setDataRecommend] = useState([])
@@ -208,41 +208,7 @@ const HomeScreen = () => {
     const [mode, SetMode] = useState(false)
     const theme = useContext(ThemeContext)
     const [DataWisata, setDataWisata] = useState([]);
-    const navigation = useNavigation();
-    // async function requestUserPermission() {
-    //     const authStatus = await messaging().requestPermission();
-    //     const enabled =
-    //         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    //         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-    //     if (enabled) {
-    //         console.log('Authorization status:', authStatus);
-    //     }
-    // }
-
-    // async function getToken() {
-    //     const fcmToken = await messaging().getToken();
-    //     console.log(fcmToken);
-    // }
-    // useEffect(() => {
-    //     requestUserPermission();
-    //     getToken();
-
-    //     const unsubscribe = messaging().onMessage(async remoteMessage => {
-    //         Alert.alert('A new FCM message arrived!', remoteMessage.notification?.body);
-    //     });
-
-    //     messaging().onNotificationOpenedApp(remoteMessage => {
-    //         console.log(
-    //             'Notification caused app to open from background state:',
-    //             remoteMessage.notification,
-    //         );
-    //         navigation.navigate("MyTrips");
-    //     });
-
-
-    //     return unsubscribe;
-    // })
+    const [DataStories, setDataStories] = useState([]);
 
     const getData = async () => {
         try {
@@ -255,6 +221,30 @@ const HomeScreen = () => {
             console.error(error);
         }
     }
+
+    useEffect(() => {
+        const getStories = () => {
+            try {
+                const storiesCollection = firestore().collection('stories');
+                const unsubscribeStories = storiesCollection.onSnapshot(querySnapshot => {
+                    const storiesData = querySnapshot.docs.map(doc => ({
+                        ...doc.data(),
+                        id: doc.id,
+                    }));
+                    const DataAcak = storiesData.sort(() => Math.random());
+                    setDataStories(DataAcak.slice(0, 8));
+                    setLoading(false);
+                });
+
+                return () => {
+                    unsubscribeStories();
+                };
+            } catch (error) {
+                console.error('Error fetching blog data:', error);
+            }
+        };
+        getStories();
+    }, []);
 
     useFocusEffect(
         useCallback(() => {
@@ -299,7 +289,7 @@ const HomeScreen = () => {
                     <ScrollView style={{ margin: 10, gap: 10 }} showsVerticalScrollIndicator={false}>
                         <Text style={[styles.label, { color: theme.textColor }]}>Wonderful Indonesia</Text>
                         <Text style={[styles.label, { color: theme.textColor }]}>Let’s Explore Together </Text>
-                        <SearchComponent />
+                        {/* <SearchComponent /> */}
                         <RenderCategoryList selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
                         <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center' }}>
                             <Text
@@ -328,17 +318,19 @@ const HomeScreen = () => {
                                 }}>
                                 Travel Story
                             </Text>
-                            <Text
-                                style={{
-                                    fontFamily: 'DavidLibre-Bold',
-                                    color: colors.sekunder,
-                                    fontSize: 16,
-                                    paddingVertical: 10,
-                                }}>
-                                View All
-                            </Text>
+                            <TouchableOpacity onPress={() => navigation.navigate("AllStories")}>
+                                <Text
+                                    style={{
+                                        fontFamily: 'DavidLibre-Bold',
+                                        color: colors.sekunder,
+                                        fontSize: 16,
+                                        paddingVertical: 10,
+                                    }}>
+                                    View All
+                                </Text>
+                            </TouchableOpacity>
                         </View>
-                        <RenderTravelStories />
+                        <RenderTravelStories data={DataStories} />
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -354,15 +346,17 @@ const HomeScreen = () => {
                                 }}>
                                 Popular
                             </Text>
-                            <Text
-                                style={{
-                                    fontFamily: 'DavidLibre-Bold',
-                                    color: colors.sekunder,
-                                    fontSize: 16,
-                                    paddingVertical: 10,
-                                }}>
-                                View All
-                            </Text>
+                            <TouchableOpacity onPress={() => navigation.navigate("AllTrips")}>
+                                <Text
+                                    style={{
+                                        fontFamily: 'DavidLibre-Bold',
+                                        color: colors.sekunder,
+                                        fontSize: 16,
+                                        paddingVertical: 10,
+                                    }}>
+                                    View All
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                         <RenderPopular dataRender={DataPopular} />
                     </ScrollView>

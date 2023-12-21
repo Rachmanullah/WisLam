@@ -9,15 +9,20 @@ import { ArrowLeft, More } from 'iconsax-react-native';
 import { ItemFavorit } from '../../../component';
 import firestore from '@react-native-firebase/firestore';
 import { formatDate } from '../../../utils/formatDate';
+import { useGlobalState } from '../../../context/GlobalStateProvider';
+import { formatRupiah } from '../../../utils/formatRupiah';
 
 const DetailMyTrips = ({ route }) => {
     const { dataId, destinationId } = route.params;
+    const { favorites, getFavorites, removeFavorite } = useGlobalState();
+    const [favoriteData, setFavoriteData] = useState([]);
     const navigation = useNavigation();
     const theme = useContext(ThemeContext)
     const actionSheetRef = useRef(null);
     const [destination, setDestination] = useState([])
     const [loading, setLoading] = useState(true);
     const [dataTrips, setDataTrips] = useState([])
+
     useEffect(() => {
         const subscriber = firestore()
             .collection('booking')
@@ -146,9 +151,9 @@ const DetailMyTrips = ({ route }) => {
                                 </View>
                                 <Text style={[styles.label, { color: theme.textColor }]}>Detail Price</Text>
                                 <View style={[styles.cardDetail, { backgroundColor: theme.theme === 'dark' ? colors.sekunder : '#FEFEFE' }]}>
-                                    <Text style={[styles.cardLabel, { color: theme.textColor }]}>Price                : <Text>Rp. 150.000</Text></Text>
+                                    <Text style={[styles.cardLabel, { color: theme.textColor }]}>Price                : <Text>{formatRupiah(destination?.harga)}</Text></Text>
                                     <Text style={[styles.cardLabel, { color: theme.textColor }]}>Person            : <Text>{dataTrips.person?.length}</Text></Text>
-                                    <Text style={[styles.cardLabel, { color: theme.textColor }]}>Total                :  <Text>Rp. 300.000</Text></Text>
+                                    <Text style={[styles.cardLabel, { color: theme.textColor }]}>Total                :  <Text>{formatRupiah(dataTrips?.harga)}</Text></Text>
                                 </View>
                             </View>
                         }

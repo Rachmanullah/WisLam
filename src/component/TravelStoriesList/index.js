@@ -1,14 +1,16 @@
 import { ImageBackground, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import colors from '../../theme/colors'
+import { useNavigation } from '@react-navigation/native';
 
 const TravelStoriesList = ({ data }) => {
+    const navigation = useNavigation();
     return (
-        <TouchableOpacity style={styles.container}>
-            <ImageBackground source={{ uri: data.photo }} style={styles.photo}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("StoriesScreen", { userId: data.id })}>
+            <ImageBackground source={{ uri: data?.image }} style={styles.photo}>
                 <View style={styles.content}>
                     <View style={styles.info}>
-                        <Text style={{ ...styles.title, paddingVertical: 20 }}>{data.user}</Text>
+                        <Text style={{ ...styles.title, paddingVertical: 20 }}>{data?.name}</Text>
                     </View>
                 </View>
             </ImageBackground>
@@ -20,12 +22,9 @@ export default TravelStoriesList
 
 const styles = StyleSheet.create({
     container: {
-        width: 120,
+        width: 100,
         height: 150,
         borderRadius: 20,
-        elevation: 10,
-        shadowColor: 'black',
-
     },
     photo: {
         width: '100%',

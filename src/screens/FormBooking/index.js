@@ -8,6 +8,9 @@ import DatePicker from 'react-native-date-picker';
 import axios from 'axios';
 import firestore from '@react-native-firebase/firestore';
 import NotifService from '../../../NotifService';
+import auth from '@react-native-firebase/auth';
+import { formatRupiah } from '../../utils/formatRupiah';
+import { countTotal } from '../../utils/countTotal';
 
 const FormBooking = ({ route }) => {
     const { dataId, person } = route.params;
@@ -19,6 +22,7 @@ const FormBooking = ({ route }) => {
     const [loading, setLoading] = useState(true);
     const [registerToken, setRegisterToken] = useState("");
     const [fcmRegistered, setfcmRegistered] = useState(false);
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
 
     const onRegister = (token) => {
         setRegisterToken(token.token)
@@ -46,6 +50,7 @@ const FormBooking = ({ route }) => {
         id_destination: 0,
         person: {},
         date: "",
+        harga: 0,
     })
     const [newPerson, SetNewPerson] = useState([{
         name: "",
@@ -54,22 +59,37 @@ const FormBooking = ({ route }) => {
     }])
 
     const handleUpload = async () => {
-        setLoading(true);
-        try {
-            await firestore().collection('booking').add({
-                id_destination: newBooking.id_destination,
-                person: newBooking.person,
-                date: newBooking.date,
-                createdAt: new Date(),
-            })
-            setLoading(false);
-            console.log('booking added!');
-            notif.localNotif('sample.mp3', 'Booking Succesful', 'Check Your Booking In App')
-            navigation.replace('ConfirmScreen', { status: 200 });
-        } catch (e) {
-            console.log(e);
-            navigation.replace('ConfirmScreen', { status: 400 });
+        const isAnyFieldEmpty = newPerson.some(person => (
+            person.name.trim() === '' ||
+            person.id_number.trim() === '' ||
+            person.telp.trim() === ''
+        ));
+        if (isAnyFieldEmpty) {
+            Alert.alert("Lengkapi Data Anda")
+        }
 
+        if (isAnyFieldEmpty) {
+            Alert.alert("Lengkapi Data Anda")
+        } else {
+            setLoading(true);
+            try {
+                const authorId = auth().currentUser.uid;
+                await firestore().collection('booking').add({
+                    id_destination: newBooking.id_destination,
+                    person: newBooking.person,
+                    date: newBooking.date,
+                    harga: newBooking.harga,
+                    createdAt: new Date(),
+                    authorId
+                })
+                setLoading(false);
+                console.log('booking added!');
+                notif.localNotif('sample.mp3', 'Booking Succesful', 'Check Your Booking In App')
+                navigation.replace('ConfirmScreen', { status: 200 });
+            } catch (e) {
+                console.log(e);
+                navigation.replace('ConfirmScreen', { status: 400 });
+            }
         }
     };
 
@@ -84,7 +104,9 @@ const FormBooking = ({ route }) => {
             id_destination: dataId,
             person: updatedPerson,
             date: date,
+            harga: countTotal(selectedData?.harga, person)
         })
+
     }
 
     const onChange = (selectedDate) => {
@@ -116,7 +138,7 @@ const FormBooking = ({ route }) => {
                     <View style={BoxTextInput.box}>
                         <TextInput
                             style={[BoxTextInput.input, { color: theme.textColor }]}
-                            placeholder='ID_Number'
+                            placeholder='NO KTP'
                             placeholderTextColor={theme.theme === 'dark' ? '#FEFEFE' : '#565e56'}
                             keyboardType='numeric'
                             onChangeText={(text) => handleInput(i, "id_number", text)}
@@ -128,6 +150,7 @@ const FormBooking = ({ route }) => {
                             placeholder='Telp'
                             placeholderTextColor={theme.theme === 'dark' ? '#FEFEFE' : '#565e56'}
                             keyboardType='numeric'
+                            textContentType=''
                             onChangeText={(text) => handleInput(i, "telp", text)}
                         />
                     </View>
@@ -158,8 +181,8 @@ const FormBooking = ({ route }) => {
             <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>
                 <View style={[cardInfo.container, { backgroundColor: theme.theme === 'dark' ? '#000000' : '#FEFEFE' }]}>
                     <Text style={[cardInfo.label, { color: theme.textColor }]}>Destination : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>{selectedData?.name}</Text></Text>
-                    <Text style={[cardInfo.label, { color: theme.textColor }]}>Price Ticket : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>Rp. 150.000 / Person</Text></Text>
-                    <Text style={[cardInfo.label, { color: theme.textColor }]}>Total Price   : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>Rp. 150.000</Text></Text>
+                    <Text style={[cardInfo.label, { color: theme.textColor }]}>Price Ticket : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>{formatRupiah(selectedData?.harga)} / Person</Text></Text>
+                    <Text style={[cardInfo.label, { color: theme.textColor }]}>Total Price   : <Text style={{ fontFamily: 'TitilliumWeb-Bold' }}>{formatRupiah(countTotal(selectedData?.harga, person))}</Text></Text>
                 </View>
                 <TouchableOpacity style={[styles.button, { backgroundColor: '#27C277', borderRadius: 10, }]} onPress={() => setOpen(true)}>
                     <Text style={{
@@ -179,7 +202,11 @@ const FormBooking = ({ route }) => {
                         setOpen(false)
                     }}
                 />
-                <TouchableOpacity style={styles.button} onPress={handleUpload}>
+                <TouchableOpacity style={[styles.button, {
+                    backgroundColor: isButtonDisabled
+                        ? '#565e56'
+                        : colors.sekunder,
+                }]} onPress={handleUpload} disabled={isButtonDisabled}>
                     <Text style={{
                         color: '#FEFEFE',
                         fontSize: 20,

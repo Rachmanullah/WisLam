@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import ThemeContext from '../../context/GlobalStateProvider'
 import ActionSheet from 'react-native-actions-sheet';
 import axios from 'axios';
+import { formatRupiah } from '../../utils/formatRupiah'
 
 const DetailTrip = ({ route }) => {
     const { dataId } = route.params;
@@ -72,7 +73,10 @@ const DetailTrip = ({ route }) => {
                     <View>
                         <Image source={{ uri: selectedData?.image }} style={styles.itemImages} />
                         <View style={[styles.content, { backgroundColor: theme.backgroundColor }]} >
-                            <Text style={[styles.title, { color: theme.textColor }]}>{selectedData?.name}</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginTop: 10 }}>
+                                <Text style={[styles.title, { color: theme.textColor }]}>{selectedData?.name}</Text>
+                                <Text style={[styles.harga, { color: theme.textColor, }]}>{formatRupiah(selectedData?.harga)}</Text>
+                            </View>
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 10 }}>
                                 <Location size={20} color={colors.sekunder} variant='Bold' />
                                 <Text style={[styles.location, { color: theme.textColor }]}>{selectedData?.destination}</Text>
@@ -197,8 +201,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter-ExtraBold',
         color: '#000000',
     },
-    location: {
-        fontFamily: 'TitilliumWeb-ExtraLight',
+    harga: {
+        fontFamily: 'TitilliumWeb-Regular',
         fontSize: 16,
         color: '#000000',
     },
@@ -219,7 +223,7 @@ const styles = StyleSheet.create({
         width: 'auto',
         height: 50,
         backgroundColor: colors.sekunder,
-        marginTop: -480,
+        marginTop: -490,
         borderRadius: 20,
     }
 })
